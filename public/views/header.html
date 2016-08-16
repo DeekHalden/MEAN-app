@@ -1,0 +1,47 @@
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Навігація</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" ui-sref="home">На головну</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a ui-sref="blog">Блог</a></li>
+                <li class="nav navbar-nav">
+                    <a ui-sref="app.market">Товари для Психологів </a>
+                </li>
+                <li><a ui-sref="app.tests">Тести для Самопізнання</a></li>
+            
+                <li class="navbar navbar-default pull-right" ng-controller="NavCtrl">
+                    <ul class="nav navbar-nav">
+                        <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
+                        <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Вийти</a></li>
+                        <li ng-hide="isLoggedIn()"><a ui-sref="login">Увійти</a></li>
+                        <li ng-hide="isLoggedIn()"><a ui-sref="register">Зареєструватися</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Пошук">
+                </div>
+                <button type="submit" class="btn btn-default">Поїхали</button>
+            </form>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+<div class="container container-fluid">
+    <div class="col-sm-12 colored align-center">
+        <div>
+            <h4>{{phrase.content}}<cite> {{phrase.author}}</cite></h4></div>
+    </div>
+</div>

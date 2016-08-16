@@ -1,0 +1,41 @@
+<div class="topbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1 ng-click="selectTab('blog')" >Психологічний блог</h1>
+
+            </div>
+            <div class="offset-sm-4 col-sm-4">
+                <nav role='navigation' class="push-right">
+                    <ul>
+                        <li><a href="" ui-sref="blog">Усі пости</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container">
+        <div class="page-header">
+            <h3>
+                <span>{{post.title}}</span>
+            </h3>
+            <span ng-show="post.author"> posted by <a>{{post.author}}</a> |</span>
+            <span ng-repeat="content in post.content track by $index">{{content}}</span>
+        </div>
+        <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+            <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span> {{comment.upvotes}} -  {{comment.author}}
+            <span style="font-size:20px; margin-left:10px;">{{comment.body}}</span>
+        </div>
+        <form ng-submit="addComment()" style="margin-top:30px;">
+            <h3>Додати новий коментарій</h3>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Ваш коментарій" ng-model="body"></input>
+            </div>
+            <button type="submit" class="btn btn-primary">Додати</button>
+        </form>
+    </div>
+</div>
