@@ -25,7 +25,7 @@ app.controller('BlogCtrl', ['$scope', 'posts', 'auth', function($scope, posts, a
             posts.downvote(post);
         };
 
-        $scope.admin = auth.currentUser();
+        $scope.user = auth.currentUser();
 
         $scope.sizeOf = function(obj) {
             if(Object.keys(obj || {}).length === 1){
@@ -36,10 +36,11 @@ app.controller('BlogCtrl', ['$scope', 'posts', 'auth', function($scope, posts, a
                 return Object.keys(obj || {}).length + ' коментарії';
             } 
         };
-
-
-
-
+    }])
+    .controller('MarketCtrl', ['$scope','market', function($scope, market){
+        $scope.title = 'Магазин';
+        $scope.items = market.items;
+       
     }])
     .controller('PostsCtrl', ['$scope', 'posts', 'post', 'auth', function($scope, posts, post, auth) {
         $scope.post = post;

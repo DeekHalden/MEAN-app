@@ -47,7 +47,7 @@ angular.module('flapperNews')
                 headers: { Authorization: 'Bearer ' + auth.getToken() }
             }).success(function(data) {
                 comment.upvotes += 1;
-                
+
             });
         };
         o.downvoteComment = function(post, comment) {
@@ -108,6 +108,26 @@ angular.module('flapperNews')
         };
         return auth;
     }])
+    .factory('market', ['$http', 'auth', function($http, auth) {
+        var obj = {
+            items: []
+        };
+
+        obj.getAll = function() {
+            return $http.get('/market').success(function(data) {
+                angular.copy(data, obj.items);
+            });
+        };
+
+        obj.create = (item) => $http.post('/market', item, {
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function(data) {
+            obj.items.push(data);
+        });
+
+        return obj;
+
+    }])
     .constant('baseURL', '/')
     .factory('headerFactory', ['$resource', 'baseURL', function($resource, baseURL) {
 
@@ -117,3 +137,4 @@ angular.module('flapperNews')
             }
         })
     }])
+    

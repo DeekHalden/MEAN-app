@@ -1,11 +1,12 @@
 var express   = require('express');
 var router    = express.Router();
 var mongoose  = require('mongoose');
+var passport  = require('passport');
+var User      = mongoose.model('User');
 var Post      = mongoose.model('Post');
 var Comment   = mongoose.model('Comment');
 var Phrase    = mongoose.model('Phrase');
-var passport  = require('passport');
-var User      = mongoose.model('User');
+var Item      = mongoose.model('Item');
 var jwt       = require('express-jwt');
 var auth      = jwt({secret: 'SECRET', userProperty: 'payload'});
 
@@ -153,6 +154,24 @@ router.post('/login', function(req, res, next){
       return res.status(401).json(info);
     }
   })(req, res, next);
+});
+
+router.get('/market', function(req, res, next) {
+  Item.find(function(err, items){
+    if(err){ return next(err); }
+
+    res.json(items);
+  });
+});
+
+router.post('/market', auth, function(req, res, next) {
+  var item = new Item(req.body);
+
+  item.save(function(err, item){
+    if(err){ return next(err); }
+
+    res.json(item);
+  });
 });
 
 

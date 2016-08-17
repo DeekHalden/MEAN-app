@@ -11,6 +11,7 @@ require('./models/Posts');
 require('./models/Comments');
 require('./models/Phrases');
 require('./models/Users');
+require('./models/Items');
 require('./config/passport');
 
 mongoose.connect('mongodb://dmytro:43431q@ds042459.mlab.com:42459/psycol-site');

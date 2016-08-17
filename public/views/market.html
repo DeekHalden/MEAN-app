@@ -1,0 +1,34 @@
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header">
+                    <h1>{{title}}</h1>
+                </div>
+                <ul class="post-grid">
+                    <li class="col-sm-6" ng-repeat="item in items">
+                        
+                        <a href="#/market/{{item._id}}">
+                            <span style="font-size:20px; margin-left:10px;">{{item.title}} </span>
+                            <span>| {{item.description}} </span> <img ng-src ="{{ item.image }}"> </span><span>{{item.price / 100 | currency :"₴":0}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+           <!--  <div class="col-md-12">
+               
+               <form  ng-show="admin === 'deek'" ng-submit="addPost()"  style="margin-top:30px;">
+                   <h3>Додати новий пост</h3>
+                   <div class="form-group">
+                       <input type="text" class="form-control" placeholder="Назва посту" ng-model="title"></input>
+                   </div>
+                   <div class="form-group">
+                       <input type="text" class="form-control" placeholder="Сам пост" ng-model="content"></input>
+                   </div>
+                   <button type="submit" class="btn btn-primary">Додати</button>
+               </form>
+           </div> -->
+        </div>
+    </div>
+</div>

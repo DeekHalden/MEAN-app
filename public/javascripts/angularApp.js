@@ -94,7 +94,43 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                     $state.go('home');
                 }
             }]
-        });
+        })
+        .state('market', {
+            url:'/market',
+            views:{
+                'header':{
+                    templateUrl: 'views/header.html',
+                    controller: 'HeaderController' 
+                },
+                'content': {
+                    templateUrl: 'views/market.html',
+                    controller: 'MarketCtrl'
+                }
+            },
+            resolve: {
+                itemsPromise: ['market', function(market) {
+                    return market.getAll();
+                }]
+            }
+        })
+        // .state('posts', {
+        //     url: '/items/{id}',
+        //     views: {
+        //         'header': {
+        //             templateUrl: 'views/header.html',
+        //             controller: 'HeaderController'
+        //         },
+        //         'content@': {
+        //             templateUrl: 'views/posts.html',
+        //             controller: 'ItemsCtrl'
+        //         }
+        //     },
+        //     resolve: {
+        //         item: ['$stateParams', 'items', function($stateParams, posts) {
+        //             return items.get($stateParams.id);
+        //         }]
+        //     }
+        // })
 
     $urlRouterProvider.otherwise('/')
 }]);
