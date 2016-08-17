@@ -1,22 +1,19 @@
 <div class="topbar">
     <div class="container">
         <div class="row">
-            <div class="col-sm-6">
-                <h1 ng-click="selectTab('blog')" >Психологічний блог</h1>
-
+            <div class="col-sm-4">
+                <h1 ui-sref="blog" class="clickable">Психологічний блог</h1>
             </div>
-            <div class="offset-sm-4 col-sm-4">
-                <nav role='navigation' class="push-right">
+            <div class="col-sm-2">
+                <nav role="navigation">
                     <ul>
                         <li><a href="" ui-sref="blog">Усі пости</a></li>
-                        
                     </ul>
                 </nav>
             </div>
         </div>
     </div>
 </div>
-
 <div class="content">
     <div class="container">
         <div class="page-header">
@@ -27,10 +24,13 @@
             <span ng-repeat="content in post.content track by $index">{{content}}</span>
         </div>
         <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
-            <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span> {{comment.upvotes}} -  {{comment.author}}
+            <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span> {{comment.upvotes}} - {{comment.author}}
             <span style="font-size:20px; margin-left:10px;">{{comment.body}}</span>
         </div>
-        <form ng-submit="addComment()" style="margin-top:30px;">
+        <div ng-hide="isLoggedIn()">
+  <h3><a href="/#/login">Увійдіть до системи</a> або <a href="/#/register">Зареєструйтесь</a> для того щоб додати коментарій.</h3>
+</div>
+        <form ng-submit="addComment()" ng-show="isLoggedIn()" style="margin-top:30px;">
             <h3>Додати новий коментарій</h3>
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Ваш коментарій" ng-model="body"></input>
