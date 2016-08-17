@@ -6,11 +6,12 @@
                     <h1>{{blogTitle}}</h1>
                 </div>
                 <ul class="post-grid">
-                    <li class="col-sm-6" ng-repeat="post in posts | orderBy:'-upvotes'">
-                        <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(post)"></span> {{post.upvotes}}
+                    <li class="col-sm-6" ng-repeat="post in posts | orderBy:'date'">
+                        <button id="{{ post._id + 'upvote' }}" class="glyphicon glyphicon-thumbs-up btn-success" ng-click="incrementUpvotes(post)"></button> {{post.upvotes}}
+                        <button  id="{{ post._id + 'downvote' }}"  class="glyphicon glyphicon-thumbs-down btn-danger" ng-click="decrementUpvotes(post)"></button> {{post.downvotes}}
                         <a href="#/posts/{{post._id}}">
-                            <span style="font-size:20px; margin-left:10px;">{{post.title}} |</span>
-                            <span>  {{post.author}} </span>
+                            <span style="font-size:20px; margin-left:10px;">{{post.title}} </span>
+                            <span>| автор:  {{post.author}} |</span> <span>{{ sizeOf(post.comments) }} </span>
                         </a>
                     </li>
                 </ul>

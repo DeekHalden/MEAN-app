@@ -1,4 +1,4 @@
-app.controller('BlogCtrl', ['$scope', 'posts','auth', function($scope, posts, auth) {
+app.controller('BlogCtrl', ['$scope', 'posts', 'auth', function($scope, posts, auth) {
         $scope.posts = posts.posts;
 
         $scope.blogTitle = 'Психологічний блог';
@@ -11,7 +11,8 @@ app.controller('BlogCtrl', ['$scope', 'posts','auth', function($scope, posts, au
             }
             posts.create({
                 title: $scope.title,
-                content: $scope.content
+                content: $scope.content,
+                author: 'user'
             });
             $scope.title = '';
             $scope.content = '';
@@ -20,13 +21,27 @@ app.controller('BlogCtrl', ['$scope', 'posts','auth', function($scope, posts, au
             posts.upvote(post);
         };
 
+        $scope.decrementUpvotes = function(post) {
+            posts.downvote(post);
+        };
+
         $scope.admin = auth.currentUser();
-        console.log($scope.admin);
-        
+
+        $scope.sizeOf = function(obj) {
+            if(Object.keys(obj || {}).length === 1){
+                return Object.keys(obj || {}).length + ' коментарій';
+            } else if(Object.keys(obj || {}).length >= 5 || (Object.keys(obj || {}).length) === 0){
+                return Object.keys(obj || {}).length + ' коментаріїв';
+            } else if ( 2<= (Object.keys(obj || {}).length) <= 4 ){
+                return Object.keys(obj || {}).length + ' коментарії';
+            } 
+        };
+
+
 
 
     }])
-    .controller('PostsCtrl', ['$scope', 'posts', 'post','auth', function($scope, posts, post,auth) {
+    .controller('PostsCtrl', ['$scope', 'posts', 'post', 'auth', function($scope, posts, post, auth) {
         $scope.post = post;
 
         $scope.isLoggedIn = auth.isLoggedIn;
@@ -44,6 +59,9 @@ app.controller('BlogCtrl', ['$scope', 'posts','auth', function($scope, posts, au
         };
         $scope.incrementUpvotes = function(comment) {
             posts.upvoteComment(post, comment);
+        };
+        $scope.decrementUpvotes = function(comment) {
+            posts.downvoteComment(post, comment);
         };
     }])
     .controller('HomeController', ['$scope', function($scope) {
