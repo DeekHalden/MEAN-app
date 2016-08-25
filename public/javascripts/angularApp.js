@@ -3,11 +3,13 @@
  *
  * Description
  */
-var app = angular.module('flapperNews', ['ui.router', 'ui.bootstrap', 'chieffancypants.loadingBar', 'ngAnimate', 'ngResource','duScroll']).config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
-    cfpLoadingBarProvider.includeSpinner = true;
-  }]);
-
-
+var app = angular.module('flapperNews', [
+    'ui.router',
+    'ui.bootstrap',
+    'ngAnimate', 
+    'ngResource',
+    'duScroll',
+    'ngCart']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $stateProvider
@@ -115,24 +117,24 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                 }]
             }
         })
-        // .state('posts', {
-        //     url: '/items/{id}',
-        //     views: {
-        //         'header': {
-        //             templateUrl: 'views/header.html',
-        //             controller: 'HeaderController'
-        //         },
-        //         'content@': {
-        //             templateUrl: 'views/posts.html',
-        //             controller: 'ItemsCtrl'
-        //         }
-        //     },
-        //     resolve: {
-        //         item: ['$stateParams', 'items', function($stateParams, posts) {
-        //             return items.get($stateParams.id);
-        //         }]
-        //     }
-        // })
+        .state('items', {
+            url: '/market/{id}',
+            views: {
+                'header': {
+                    templateUrl: 'views/header.html',
+                    controller: 'HeaderController'
+                },
+                'content@': {
+                    templateUrl: 'views/items.html',
+                    controller: 'ItemsCtrl'
+                }
+            },
+            resolve: {
+                item: ['$stateParams', 'items', function($stateParams, posts) {
+                    return items.get($stateParams.id);
+                }]
+            }
+        })
 
     $urlRouterProvider.otherwise('/')
 }]);

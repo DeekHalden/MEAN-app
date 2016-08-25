@@ -21,7 +21,7 @@
                 <span>{{post.title}}</span>
             </h3>
             <span ng-show="post.author"> posted by {{post.author}} |</span> 
-            <span ng-repeat="content in post.content">{{content}}</span>
+            <div ng-repeat="content in post.content track by $index">{{content}}</div>
         </div>
         <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
             <button class="glyphicon glyphicon-thumbs-up btn-success" ng-click="incrementUpvotes(comment)"></button> {{comment.upvotes}} 
