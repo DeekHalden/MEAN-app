@@ -3,32 +3,59 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header">
-                    <h1>{{title}}</h1>
+                    <h1>{{header}}</h1>
                 </div>
                 <ul class="post-grid">
                     <li class="col-sm-6" ng-repeat="item in items">
-                        
-                        <a href="#/market/{{item._id}}">
+                        <md-card ui-sref="#/market/{{item._id}}">
+                            <md-card-title-media>
+                              <img ng-src="{{item.image }}" class="md-card-image " alt="Маска">
+                              </md-card-title-media>
+                            <md-card-content>
+                                <h2>{{item.title}} </h2>
+                                <p>{{item.description}} </p>
+                                
+                            </md-card-content>
+                            <md-card-footer>
+                                <span>{{item.stock}} шт. в наявності </span>
+                                <p>{{item.price/100  | currency :"₴"}}
+                                </p>
+                            </md-card-footer>
+                            <button class="btn-danger" ng-click="delete($index)" ng-show="user==='TanyaAdmin'">Видалити</button>
+                        </md-card>
+                       <!--  <a href="#/market/{{item._id}}">
                             <span style="font-size:20px; margin-left:10px;">{{item.title}} </span>
-                            <span>| {{item.description}} </span> <img ng-src ="{{ item.image }}"> </span><span>{{item.price / 100 | currency :"₴":0}}</span>
+                            <span>| {{item.description}}  {{item.stock}} шт. в наличие </span> <img ng-src="{{ item.image }}"> </span><span>{{item.price/100  | currency :"₴"}}</span>
                         </a>
+                        <button class="btn-danger" ng-click="delete($index)" ng-show="user==='TanyaAdmin'">Видалити</button> -->
                     </li>
                 </ul>
             </div>
-
-           <!--  <div class="col-md-12">
-               
-               <form  ng-show="admin === 'deek'" ng-submit="addPost()"  style="margin-top:30px;">
-                   <h3>Додати новий пост</h3>
-                   <div class="form-group">
-                       <input type="text" class="form-control" placeholder="Назва посту" ng-model="title"></input>
-                   </div>
-                   <div class="form-group">
-                       <input type="text" class="form-control" placeholder="Сам пост" ng-model="content"></input>
-                   </div>
-                   <button type="submit" class="btn btn-primary">Додати</button>
-               </form>
-           </div> -->
         </div>
     </div>
+    <div class="container">
+        <div style="margin-top:20px;" class="button-container col-sm-12 " ng-show="user==='TanyaAdmin'">
+            <button  class="btn-primary add" ng-click="showDetails = !showDetails"><a ng-click="gotoBottom()">Додати товар</a></button>
+        </div>
+        <form id="form" ng-submit="addItem()" ng-show="showDetails" style="margin-top:100px;">
+        <h3 class="col-sm-12">Додати новий продукт</h3>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Назва товару" ng-model="title"></input>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Характеристики" ng-model="description"></input>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Ціна" ng-model="price"></input>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Кількість" ng-model="stock"></input>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Фото" ng-model="photo"></input>
+        </div>
+        <button type="submit" class="btn btn-primary">Додати</button>
+    </form>
+    </div>
+    
 </div>

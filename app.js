@@ -18,6 +18,7 @@ mongoose.connect('mongodb://dmytro:43431q@ds042459.mlab.com:42459/psycol-site');
 
 var routes       = require('./routes/index');
 var users        = require('./routes/users');
+var items        = require('./routes/items');
 var app          = express();
 
 // view engine setup
@@ -36,6 +37,7 @@ app.use(passport.initialize());
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/market', items);
 
 
 // catch 404 and forward to error handler
@@ -88,7 +90,9 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port,function(){
+  console.log('Magic happens here http://localhost:' +port);
+});
 
 
 module.exports = app;

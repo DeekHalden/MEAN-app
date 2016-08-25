@@ -3,7 +3,9 @@
  *
  * Description
  */
-var app = angular.module('flapperNews', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource']);
+var app = angular.module('flapperNews', ['ui.router', 'ui.bootstrap', 'chieffancypants.loadingBar', 'ngAnimate', 'ngResource','duScroll']).config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = true;
+  }]);
 
 
 

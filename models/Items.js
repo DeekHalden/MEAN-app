@@ -4,9 +4,13 @@ var Currency = mongoose.Types.Currency;
 
 var ItemSchema = new mongoose.Schema({
 	title: String,
-	desciption: String,
+	description: String,
 	price: Currency,
-	image: String
+	image: String,
+	stock: {
+		type:Number,
+		min:1
+	}
 });
 
 mongoose.model('Item',ItemSchema);

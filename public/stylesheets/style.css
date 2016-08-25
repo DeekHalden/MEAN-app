@@ -83,3 +83,12 @@ ul.post-grid li:hover span{
     text-align: center;
     color: #ffffff;
 }
+
+md-card img {
+    width: 100%
+}
+
+.add a {
+    color:#fff;
+    text-decoration: none;
+}

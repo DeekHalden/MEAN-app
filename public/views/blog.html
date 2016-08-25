@@ -18,10 +18,8 @@
             </div>
 
             <div class="col-md-12">
-                <!-- <div ng-hide="isLoggedIn()">
-                  <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can comment.</h3>
-                </div> -->
-                <form  ng-show="user === 'deek'" ng-submit="addPost()"  style="margin-top:30px;">
+                
+                <form  ng-show="user==='TanyaAdmin'" ng-submit="addPost()"  style="margin-top:30px;">
                     <h3>Додати новий пост</h3>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Назва посту" ng-model="title"></input>

@@ -65,7 +65,34 @@ angular.module('flapperNews')
 
         return o;
     }])
-    .factory('auth', ['$http', '$window', function($http, $window) {
+     .factory('market', ['$http', 'auth', function($http, auth) {
+        var obj = {
+            items: []
+        };
+
+        obj.getAll = function() {
+            return $http.get('/market').success(function(data) {
+                
+                angular.copy(data, obj.items);
+            });
+        };
+
+        obj.create = (item) => $http.post('/market', item, {
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function(data) {
+            obj.items.push(data);
+        });
+        obj.delete = function(item) {
+            return $http.delete('/market/'+item.id,null,{
+                headers: { Authorization: 'Bearer ' + auth.getToken() }
+            }).success(function(data){
+                obj.items.slice(data,1);
+            });           
+        };
+        return obj;
+
+    }])
+    .factory('auth', ['$http', '$window','$state', function($http, $window,$state) {
         var auth = {};
         auth.saveToken = function(token) {
             $window.localStorage['flapper-news-token'] = token;
@@ -94,40 +121,23 @@ angular.module('flapperNews')
             }
         };
         auth.register = function(user) {
-            return $http.post('/register', user).success(function(data) {
+            return $http.post('/users/register', user).success(function(data) {
                 auth.saveToken(data.token);
             });
         };
         auth.logIn = function(user) {
-            return $http.post('/login', user).success(function(data) {
+            return $http.post('/users/login', user).success(function(data) {
                 auth.saveToken(data.token);
             });
         };
         auth.logOut = function() {
             $window.localStorage.removeItem('flapper-news-token');
+            $state.go($state.current, {}, {reload: true});  
+
         };
         return auth;
     }])
-    .factory('market', ['$http', 'auth', function($http, auth) {
-        var obj = {
-            items: []
-        };
 
-        obj.getAll = function() {
-            return $http.get('/market').success(function(data) {
-                angular.copy(data, obj.items);
-            });
-        };
-
-        obj.create = (item) => $http.post('/market', item, {
-            headers: { Authorization: 'Bearer ' + auth.getToken() }
-        }).success(function(data) {
-            obj.items.push(data);
-        });
-
-        return obj;
-
-    }])
     .constant('baseURL', '/')
     .factory('headerFactory', ['$resource', 'baseURL', function($resource, baseURL) {
 
