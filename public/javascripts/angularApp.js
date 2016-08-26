@@ -6,10 +6,12 @@
 var app = angular.module('flapperNews', [
     'ui.router',
     'ui.bootstrap',
-    'ngAnimate', 
+    'ngAnimate',
     'ngResource',
     'duScroll',
-    'ngCart']);
+    'ngCart',
+    'google.places'
+]);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $stateProvider
@@ -69,12 +71,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                     templateUrl: 'views/header.html',
                     controller: 'HeaderController'
                 },
-                'content@':{
-                    templateUrl:'views/login.html',
+                'content@': {
+                    templateUrl: 'views/login.html',
                     controller: 'AuthCtrl'
                 }
             },
-            
+
             onEnter: ['$state', 'auth', function($state, auth) {
                 if (auth.isLoggedIn()) {
                     $state.go('home');
@@ -88,8 +90,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                     templateUrl: 'views/header.html',
                     controller: 'HeaderController'
                 },
-                'content@':{
-                    templateUrl:'views/register.html',
+                'content@': {
+                    templateUrl: 'views/register.html',
                     controller: 'AuthCtrl'
                 }
             },
@@ -100,11 +102,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             }]
         })
         .state('market', {
-            url:'/market',
-            views:{
-                'header':{
+            url: '/market',
+            views: {
+                'header': {
                     templateUrl: 'views/header.html',
-                    controller: 'HeaderController' 
+                    controller: 'HeaderController'
                 },
                 'content': {
                     templateUrl: 'views/market.html',
@@ -135,6 +137,20 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                 }]
             }
         })
+        .state('checkout', {
+            url: '/checkout',
+            views: {
+                'header': {
+                    templateUrl: 'views/header.html',
+                    controller: 'HeaderController'
+                },
+                'content@': {
+                    templateUrl: 'views/products-checkout.html',
+                    controller: 'ProductCheckoutCtrl'
+                }
+            },
+            
+        });
 
     $urlRouterProvider.otherwise('/')
 }]);

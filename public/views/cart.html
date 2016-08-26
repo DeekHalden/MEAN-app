@@ -1,6 +1,6 @@
 
 <div class="alert alert-warning" role="alert" ng-show="ngCart.getTotalItems() === 0">
-    Your cart is empty
+    Ваша карта змовника порожня
 </div>
 
 <div class="table-responsive col-lg-12" ng-show="ngCart.getTotalItems() > 0">
@@ -11,9 +11,9 @@
         <tr>
             <th></th>
             <th></th>
-            <th>Quantity</th>
-            <th>Amount</th>
-            <th>Total</th>
+            <th>Кількість</th>
+            <th>Ціна за одиницю</th>
+            <th>Загалом</th>
         </tr>
         </thead>
         <tfoot>
@@ -22,21 +22,21 @@
             <td></td>
             <td></td>
             <td>Tax ({{ ngCart.getTaxRate() }}%):</td>
-            <td>{{ ngCart.getTax() | currency }}</td>
+            <td>{{ ngCart.getTax() | currency :"₴"}} грн.</td>
         </tr>
         <tr ng-show="ngCart.getShipping()">
             <td></td>
             <td></td>
             <td></td>
             <td>Shipping:</td>
-            <td>{{ ngCart.getShipping() | currency }}</td>
+            <td>{{ ngCart.getShipping() | currency :"₴"}} грн.</td>
         </tr>
         <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td>Total:</td>
-            <td>{{ ngCart.totalCost() | currency }}</td>
+            <td>Загалом:</td>
+            <td>{{ ngCart.totalCost()/100 | currency :"₴"}} грн.</td>
         </tr>
         </tfoot>
         <tbody>
@@ -48,8 +48,8 @@
                       ng-click="item.setQuantity(-1, true)"></span>&nbsp;&nbsp;
                 {{ item.getQuantity() | number }}&nbsp;&nbsp;
                 <span class="glyphicon glyphicon-plus" ng-click="item.setQuantity(1, true)"></span></td>
-            <td>{{ item.getPrice() | currency}}</td>
-            <td>{{ item.getTotal() | currency }}</td>
+            <td>{{ item.getPrice()/100 | currency :"₴"}} грн.</td>
+            <td>{{ item.getTotal()/100 | currency :"₴"}} грн.</td>
         </tr>
         </tbody>
     </table>

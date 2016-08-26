@@ -92,3 +92,42 @@ md-card img {
     color:#fff;
     text-decoration: none;
 }
+
+.form, {
+     border-bottom: 1px solid #3a8bab;
+}
+
+.form.form-group:hover {
+    background: #3a8bab;
+    color: white;
+}
+
+.form-group label {
+    width: 250px;
+}
+
+.form-group input {
+    margin:10px 0; 
+    border-color: #3a8bab;
+    outline-color: #3a8bab;
+}
+
+.help-block {
+    color: #EC5151;
+}
+
+.bubble { 
+  animation:pulse 1s infinite; 
+  -webkit-animation:pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%      { transform:scale(1); }
+  25%     { transform:scale(1.05); }
+  75%     { transform:scale(1); }
+}
+@-webkit-keyframes pulse {
+  0%      { -webkit-transform:scale(1); }
+  25%     { -webkit-transform:scale(1.05); }
+  75%     { -webkit-transform:scale(1); }
+}

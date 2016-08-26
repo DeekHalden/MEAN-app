@@ -37,7 +37,7 @@ app.controller('BlogCtrl', ['$scope', 'posts', 'auth', function($scope, posts, a
             }
         };
     }])
-    .controller('MarketCtrl', ['$scope', 'market', 'auth', '$state','$timeout','$document',  function($scope, market, auth, $state, $timeout,$document) {
+    .controller('MarketCtrl', ['$scope', 'market', 'auth', '$state', '$timeout', '$document', 'ngCart', function($scope, market, auth, $state, $timeout, $document, ngCart) {
         var duration = 1500;
         var offset = 30;
 
@@ -62,6 +62,9 @@ app.controller('BlogCtrl', ['$scope', 'posts', 'auth', function($scope, posts, a
             $scope.stock = '';
         };
 
+
+
+
         $scope.delete = function(item) {
             var elemToDelete = $scope.items[item];
             console.log(elemToDelete._id);
@@ -76,35 +79,56 @@ app.controller('BlogCtrl', ['$scope', 'posts', 'auth', function($scope, posts, a
             // set the location.hash to the id of
             // the element you wish to scroll to.
             $timeout(function() {
-                    $document.scrollToElement(form, offset, duration);
-                }, 100)
-            }
-        
+                $document.scrollToElement(form, offset, duration);
+            }, 100)
+        }
+
 
     }])
-    .controller('PostsCtrl', ['$scope', 'posts', 'post', 'auth', function($scope, posts, post, auth) {
-        $scope.post = post;
+    .controller('ProductCheckoutCtrl', ['$scope', '$http', '$state', 'ngCart',
+        function($scope, $http, $state, ngCart) {
+            
+            $scope.order = {
+                
+                place:'',
+                method:'',
+                name:'',
+                email:'',
+                telephone:'',
+                delivery:''
 
-        $scope.isLoggedIn = auth.isLoggedIn;
-        $scope.addComment = function() {
-            if ($scope.body === '') {
-                return;
             }
-            posts.addComment(post._id, {
-                body: $scope.body,
-                author: 'user',
-            }).success(function(comment) {
-                $scope.post.comments.push(comment);
-            });
-            $scope.body = '';
-        };
-        $scope.incrementUpvotes = function(comment) {
-            posts.upvoteComment(post, comment);
-        };
-        $scope.decrementUpvotes = function(comment) {
-            posts.downvoteComment(post, comment);
-        };
-    }])
+
+            $scope.errors = '';
+            var items = ngCart.getItems();
+            console.log(items[0]);
+
+        }
+    ])
+
+.controller('PostsCtrl', ['$scope', 'posts', 'post', 'auth', function($scope, posts, post, auth) {
+    $scope.post = post;
+
+    $scope.isLoggedIn = auth.isLoggedIn;
+    $scope.addComment = function() {
+        if ($scope.body === '') {
+            return;
+        }
+        posts.addComment(post._id, {
+            body: $scope.body,
+            author: 'user',
+        }).success(function(comment) {
+            $scope.post.comments.push(comment);
+        });
+        $scope.body = '';
+    };
+    $scope.incrementUpvotes = function(comment) {
+        posts.upvoteComment(post, comment);
+    };
+    $scope.decrementUpvotes = function(comment) {
+        posts.downvoteComment(post, comment);
+    };
+}])
 
 .controller('HomeController', ['$scope', function($scope) {
     $scope.links = [

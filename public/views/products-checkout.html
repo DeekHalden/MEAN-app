@@ -1,0 +1,51 @@
+<navbar></navbar>
+<div class="container">
+    <div class="row">
+        <h1>Корзина заказа </h1>
+        <ngcart-cart template-url="views/cart.html"></ngcart-cart>
+    </div>
+    <div class="row">
+        <p class="help-block">{{ errors }}</p>
+        <br>
+        <div class="col-md-4 col-sm-push-10">
+            <button class="btn btn-success" ng-click="showDetails = !showDetails">Оформить заказ</button>
+        </div>
+    </div>
+    <div class="row">
+        <form name="orderForm" id="form" role="form" ng-show="showDetails" class="form-vertical" ng-submit="sendOrder()" novalidate>
+            <div class="form-group">
+                <label for="address" class="btn btn-primary control-label" ng-click="showAddress = !showAddress">Введите адрес доставки</label>
+                <div class="col-sm-12" ng-show="showAddress">
+                    <input name="address" ng-class="{ 'bubble' : orderForm.address.$error.required && !orderForm.address.$pristine }" id="address" class="form-control" type="text" placeholder="Введите адрес" g-places-autocomplete ng-model="order.place" required>
+                    <span ng-show="orderForm.address.$error.required && !orderForm.address.$pristine" class="help-block">Поле адрес обязательно для заполнения</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="method" class="btn btn-primary control-label" ng-click="showMethod = !showMethod">Введите метод оплаты</label>
+                <div class="col-sm-12" ng-show="showMethod" ng-class="{ 'bubble' : orderForm.method.$error.required && !orderForm.method.$pristine }">
+                    <input id="method" name="method" type="radio" placeholder="Введите адрес" ng-model="order.method" checked>Оплата на карту ПриватБанка
+                    <input name="method" type="radio" placeholder="Введите адрес" ng-model="order.method">Наложенный платеж
+                    <span ng-show="orderForm.method.$error.required && !orderForm.method.$pristine" class="help-block">Поле метод оплаты обязательно для заполнения</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="info" class="btn btn-primary control-label" ng-click="showInfo = !showInfo">Введите данные получателя</label>
+                <div class="col-sm-12" ng-show="showInfo">
+                    <input name="name" ng-class="{ 'bubble' : orderForm.name.$error.required && !orderForm.name.$pristine }" id="name" class="form-control" type="text" placeholder="Ф.И.О." ng-model="order.name" required>
+                    <span ng-show="orderForm.name.$error.required && !orderForm.name.$pristine" class="help-block">Поле Ф.И.О. обязательно для заполнения</span>
+                    <input name="email" ng-class="{ 'bubble' : orderForm.email.$error.required && !orderForm.email.$pristine }" id="email" class="form-control" type="email" placeholder="Email" ng-model="order.email" required>
+                    <span ng-show="orderForm.email.$error.required && !orderForm.email.$pristine" class="help-block">Поле Email обязательно для заполнения</span>
+                    <input name="telephone" ng-class="{ 'bubble' : orderForm.telephone.$error.required && !orderForm.telephone.$pristine }" id="telephone" class="form-control" type="text" placeholder="Номер телефона" ng-model="order.telephone" required>
+                    <span ng-show="orderForm.telephone.$error.required && !orderForm.telephone.$pristine" class="help-block">Поле Номер телефона обязательно для заполнения</span>
+                    <input name="delivery" ng-class="{ 'bubble' : orderForm.delivery.$error.required && !orderForm.delivery.$pristine }" id="delivery" class="form-control" type="text" placeholder="Номер отделения службы доставки" ng-model="order.delivery" required>
+                    <span ng-show="orderForm.delivery.$error.required && !orderForm.delivery.$pristine" class="help-block">Поле Номер отделения службы доставки обязательно для заполнения</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary" ng-disabled="orderForm.$invalid">Заказать</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

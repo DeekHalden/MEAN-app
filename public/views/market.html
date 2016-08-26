@@ -20,7 +20,7 @@
                                 <span>{{item.stock}} шт. в наявності </span>
                                 <p>{{item.price/100  | currency :"₴"}}
                                 </p>
-                                <ngcart-addtocart id="{{item._id}}" quantity="1" quantity-max="9" name="{{item.title}}" price="{{item.price}}" template-url="views/addtocart.html" data="product">Add to Cart</ngcart-addtocart>
+                                <ngcart-addtocart  id="{{item._id}}" quantity="1" quantity-max="9" name="{{item.title}}" price="{{item.price}}" template-url="views/addtocart.html" data="product">Add to Cart</ngcart-addtocart>
                             </md-card-footer>
 
                             <button class="btn-danger" ng-click="delete($index)" ng-show="user==='TanyaAdmin'">Видалити</button>
