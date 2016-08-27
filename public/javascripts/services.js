@@ -65,14 +65,14 @@ angular.module('flapperNews')
 
         return o;
     }])
-     .factory('market', ['$http', 'auth', function($http, auth) {
+    .factory('market', ['$http', 'auth', function($http, auth) {
         var obj = {
             items: []
         };
 
         obj.getAll = function() {
             return $http.get('/market').success(function(data) {
-                
+
                 angular.copy(data, obj.items);
             });
         };
@@ -83,16 +83,16 @@ angular.module('flapperNews')
             obj.items.push(data);
         });
         obj.delete = function(item) {
-            return $http.delete('/market/'+item.id,null,{
+            return $http.delete('/market/' + item.id, null, {
                 headers: { Authorization: 'Bearer ' + auth.getToken() }
-            }).success(function(data){
-                obj.items.slice(data,1);
-            });           
+            }).success(function(data) {
+                obj.items.slice(data, 1);
+            });
         };
         return obj;
 
     }])
-    .factory('auth', ['$http', '$window','$state', function($http, $window,$state) {
+    .factory('auth', ['$http', '$window', '$state', function($http, $window, $state) {
         var auth = {};
         auth.saveToken = function(token) {
             $window.localStorage['flapper-news-token'] = token;
@@ -132,13 +132,13 @@ angular.module('flapperNews')
         };
         auth.logOut = function() {
             $window.localStorage.removeItem('flapper-news-token');
-            $state.go($state.current, {}, {reload: true});  
+            $state.go($state.current, {}, { reload: true });
 
         };
         return auth;
     }])
 
-    .constant('baseURL', '/')
+.constant('baseURL', '/')
     .factory('headerFactory', ['$resource', 'baseURL', function($resource, baseURL) {
 
         return $resource(baseURL + 'phrases/', null, {
@@ -147,4 +147,10 @@ angular.module('flapperNews')
             }
         })
     }])
-    
+    .factory('orderFactory', ['$resource', 'baseURL', function($resource, baseURL) {
+        return $resource(baseURL + 'checkout/', null, {
+            'update': {
+                method: 'PUT'
+            }
+        })
+    }])

@@ -85,23 +85,37 @@ app.controller('BlogCtrl', ['$scope', 'posts', 'auth', function($scope, posts, a
 
 
     }])
-    .controller('ProductCheckoutCtrl', ['$scope', '$http', '$state', 'ngCart',
-        function($scope, $http, $state, ngCart) {
-            
+    .controller('ProductCheckoutCtrl', ['$scope', '$http', '$state', 'ngCart', 'orderFactory',
+        function($scope, $http, $state, ngCart, orderFactory) {
+
             $scope.order = {
-                
-                place:'',
-                method:'',
-                name:'',
-                email:'',
-                telephone:'',
-                delivery:''
+
+                place: '',
+                method: '',
+                name: '',
+                email: '',
+                telephone: '',
+                delivery: ''
 
             }
 
             $scope.errors = '';
             var items = ngCart.getItems();
-            console.log(items[0]);
+
+            $scope.sendOrder = function() {
+                
+                orderFactory.save([items,$scope.order]);
+
+                $scope.order = {
+                    place: '',
+                    method: '',
+                    name: '',
+                    email: '',
+                    telephone: '',
+                    delivery: ''
+                }
+                $scope.orderForm.$setPristine();
+            }
 
         }
     ])

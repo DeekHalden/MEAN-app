@@ -12,13 +12,14 @@ require('./models/Comments');
 require('./models/Phrases');
 require('./models/Users');
 require('./models/Items');
+
 require('./config/passport');
 
 mongoose.connect('mongodb://dmytro:43431q@ds042459.mlab.com:42459/psycol-site');
-
 var routes       = require('./routes/index');
 var users        = require('./routes/users');
 var items        = require('./routes/items');
+var checkout     = require('./routes/checkout');
 var app          = express();
 
 // view engine setup
@@ -38,6 +39,7 @@ app.use(passport.initialize());
 app.use('/', routes);
 app.use('/users', users);
 app.use('/market', items);
+app.use('/checkout', checkout);
 
 
 // catch 404 and forward to error handler
@@ -77,7 +79,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = process.env.PORT || '3000';
+var port = process.env.PORT || '4000';
 app.set('port', port);
 
 /**

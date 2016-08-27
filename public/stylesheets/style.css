@@ -106,11 +106,14 @@ md-card img {
     width: 250px;
 }
 
-.form-group input {
-    margin:10px 0; 
-    border-color: #3a8bab;
-    outline-color: #3a8bab;
-}
+// .form-group input[type=text] {
+//     margin:10px 0; 
+//     border: none;
+//     border-bottom: 2px solid #3a8bab;
+//     outline: none;
+    
+    
+// }
 
 .help-block {
     color: #EC5151;
@@ -130,4 +133,50 @@ md-card img {
   0%      { -webkit-transform:scale(1); }
   25%     { -webkit-transform:scale(1.05); }
   75%     { -webkit-transform:scale(1); }
+}
+
+
+.bar {
+  position: relative;
+  display: block;
+  margin:0 0 10px; 
+}
+
+.bar:before,
+.bar:after {
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #2196F3; 
+  transition: 0.2s ease all;
+}
+
+.bar:before {
+  left: 50%;
+}
+
+.bar:after {
+  right: 50%; 
+}
+
+.form-control {
+    margin-top: 10px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+
+    
+  
+}
+
+.form-control:focus {
+  
+  border-color: transparent;
+
+}
+
+.form-control:focus ~ .bar:before,
+.form-control:focus ~ .bar:after {
+  width: 50%;
 }
