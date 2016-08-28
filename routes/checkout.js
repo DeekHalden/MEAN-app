@@ -14,14 +14,14 @@ checkoutRouter.use(bodyParser.json());
 checkoutRouter.route('/')
     .post(function(req, res, next) {
         var userData = req.body[req.body.length - 1];
-    	var userDetails = 'Пользователь ' + userData.name + ' из города ' + userData.place.address_components[0].long_name + ' заказал доставку в отделение \#' + userData.delivery + ' Метод оплаты:'+userData.method+'. Email:  ' + userData.email + ' телефон: ' + userData.telephone + ' Свяжитесь как можно скорее!';
+    	var userDetails = 'Пользователь ' + userData.name + ' из города ' + userData.place.address_components[0].long_name + ' заказал доставку в отделение \#' + userData.delivery + '\n Метод оплаты:'+userData.method+'. Email:  ' + userData.email + ' телефон: ' + userData.telephone + ' Свяжитесь как можно скорее!';
 
     	var arr = req.body[0];
     	console.log(arr);
 
     	var orderDetails = arr.map(function(item) {
     		
-                return ''+item._name + ' в количестве ' + item._quantity + 'шт. с общей стоимостью ' + (item._price * item._quantity / 100) + ' грн. ';
+                return ''+item._name + ' в количестве ' + item._quantity + 'шт. с общей стоимостью ' + (item._price * item._quantity / 100) + ' грн. \n';
         });
 
     	orderDetails += userDetails;

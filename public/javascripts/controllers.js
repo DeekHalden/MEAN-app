@@ -101,10 +101,11 @@ app.controller('BlogCtrl', ['$scope', 'posts', 'auth', function($scope, posts, a
 
             $scope.errors = '';
             var items = ngCart.getItems();
+            var totalCost = ngCart.totalCost();
 
             $scope.sendOrder = function() {
                 
-                orderFactory.save([items,$scope.order]);
+                orderFactory.save([items,totalCost,$scope.order]);
 
                 $scope.order = {
                     place: '',
