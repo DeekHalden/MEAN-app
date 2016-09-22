@@ -1,26 +1,32 @@
 /**
- * flapperNews Module
+ * meanApp Module
  *
  * Description
  */
-var app = angular.module('flapperNews', [
-    'ui.router',
+angular.module('meanApp', ['ui.router',
     'ui.bootstrap',
     'ngAnimate',
     'ngResource',
     'duScroll',
-    'ngCart',
-    'google.places'
-]);
+    'ngMaterial',
+    'ngCart', 'ngRoute',
+    'google.places', 'ngDialog','ngMdIcons'
+]).config(function($mdThemingProvider, $stateProvider, $urlRouterProvider) {
 
-app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+    $mdThemingProvider.theme('default')
+        .primaryPalette('teal')
+        .accentPalette('orange');
+
+
+
     $stateProvider
-        .state('home', {
+        .state('app', {
             url: '/',
             views: {
                 'header': {
                     templateUrl: 'views/header.html',
                     controller: 'HeaderController'
+
                 },
                 'content': {
                     templateUrl: 'views/home.html',
@@ -28,129 +34,76 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                 }
             }
         })
-        .state('blog', {
-            url: '/blog',
+        .state('app.market', {
+            url: 'market',
             views: {
-                'header': {
-                    templateUrl: 'views/header.html',
-                    controller: 'HeaderController'
-                },
                 'content@': {
-                    templateUrl: 'views/blog.html',
-                    controller: 'BlogCtrl'
-                }
-            },
-            resolve: {
-                postPromise: ['posts', function(posts) {
-                    return posts.getAll();
-                }]
-            }
-        })
-        .state('posts', {
-            url: '/posts/{id}',
-            views: {
-                'header': {
-                    templateUrl: 'views/header.html',
-                    controller: 'HeaderController'
-                },
-                'content@': {
-                    templateUrl: 'views/posts.html',
-                    controller: 'PostsCtrl'
-                }
-            },
-            resolve: {
-                post: ['$stateParams', 'posts', function($stateParams, posts) {
-                    return posts.get($stateParams.id);
-                }]
-            }
-        })
-        .state('login', {
-            url: '/login',
-            views: {
-                'header': {
-                    templateUrl: 'views/header.html',
-                    controller: 'HeaderController'
-                },
-                'content@': {
-                    templateUrl: 'views/login.html',
-                    controller: 'AuthCtrl'
-                }
-            },
-
-            onEnter: ['$state', 'auth', function($state, auth) {
-                if (auth.isLoggedIn()) {
-                    $state.go('home');
-                }
-            }]
-        })
-        .state('register', {
-            url: '/register',
-            views: {
-                'header': {
-                    templateUrl: 'views/header.html',
-                    controller: 'HeaderController'
-                },
-                'content@': {
-                    templateUrl: 'views/register.html',
-                    controller: 'AuthCtrl'
-                }
-            },
-            onEnter: ['$state', 'auth', function($state, auth) {
-                if (auth.isLoggedIn()) {
-                    $state.go('home');
-                }
-            }]
-        })
-        .state('market', {
-            url: '/market',
-            views: {
-                'header': {
-                    templateUrl: 'views/header.html',
-                    controller: 'HeaderController'
-                },
-                'content': {
                     templateUrl: 'views/market.html',
-                    controller: 'MarketCtrl'
+                    controller: 'MarketController'
                 }
-            },
-            resolve: {
-                itemsPromise: ['market', function(market) {
-                    return market.getAll();
-                }]
             }
         })
-        .state('items', {
-            url: '/market/{id}',
+        .state('app.market.new', {
+            url: '/new',
+            templateUrl: 'views/new/newItem.tpl.html',
+            controller: 'newItemCtrl as vm'
+
+        })
+
+        .state('app.market.edit', {
+            url: '/:id/edit',
+            templateUrl: 'views/edit/editItem.tpl.html',
+            controller: 'editItemCtrl as vm',
+            params: {
+                item: null
+            }
+
+        })
+        .state('app.item', {
+            url: 'market/:id',
             views: {
-                'header': {
-                    templateUrl: 'views/header.html',
-                    controller: 'HeaderController'
-                },
                 'content@': {
-                    templateUrl: 'views/items.html',
-                    controller: 'ItemsCtrl'
+                    templateUrl: 'views/item.html',
+                    controller: 'ItemController'
                 }
-            },
-            resolve: {
-                item: ['$stateParams', 'items', function($stateParams, posts) {
-                    return items.get($stateParams.id);
-                }]
             }
         })
-        .state('checkout', {
+        .state('app.checkout', {
             url: '/checkout',
             views: {
-                'header': {
-                    templateUrl: 'views/header.html',
-                    controller: 'HeaderController'
-                },
                 'content@': {
                     templateUrl: 'views/products-checkout.html',
-                    controller: 'ProductCheckoutCtrl'
+                    controller: 'CheckoutController'
                 }
-            },
-            
-        });
+            }
+        })
+        .state('app.blog', {
+            url: 'blog',
+            views: {
+                'content@': {
+                    templateUrl: 'views/blog.html',
+                    controller: 'BlogController'
+                }
+            }
+        })
+        .state('app.post', {
+            url: 'blog/:id',
+            views: {
+                'content@': {
+                    templateUrl: 'views/post.html',
+                    controller: 'PostController'
+                }
+            }
+        })
+        .state('app.tests', {
+            url: 'tests/',
+            views: {
+                'content@': {
+                    templateUrl: 'views/tests.html',
+                    controller: ''
+                }
+            }
+        })
+    $urlRouterProvider.otherwise('/');
 
-    $urlRouterProvider.otherwise('/')
-}]);
+})

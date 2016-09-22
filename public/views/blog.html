@@ -3,33 +3,65 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header">
-                    <h1>{{blogTitle}}</h1>
+                    <h1>Психологический блог</h1>
                 </div>
-                <ul class="post-grid">
-                    <li class="col-sm-6" ng-repeat="post in posts | orderBy:'date'">
-                        <button id="{{ post._id + 'upvote' }}" class="glyphicon glyphicon-thumbs-up btn-success" ng-click="incrementUpvotes(post)"></button> {{post.upvotes}}
-                        <button  id="{{ post._id + 'downvote' }}"  class="glyphicon glyphicon-thumbs-down btn-danger" ng-click="decrementUpvotes(post)"></button> {{post.downvotes}}
-                        <a href="#/posts/{{post._id}}">
+                <ul class="post-grid" layout="row" layout-xs="column">
+                    <li class="item" flex="100" flex-gt-sm="45" ng-repeat="post in posts | orderBy:'date'">
+                        <md-button ng-if="isAdmin===true" ng-click="deletePost(event,post)" class="md-warn">Удалить</md-button>
+                        <a href="#/blog/{{post._id}}">
                             <span style="font-size:20px; margin-left:10px;">{{post.title}} </span>
-                            <span>| автор:  {{post.author}} |</span> <span>{{ sizeOf(post.comments) }} </span>
+                            <span>| автор:  {{post.author}} |</span>
+                            <br>
+                            <div class="heading">{{post.content[0][0]}} ...</div>
                         </a>
+                        <div class="btn-group">
+                            <ng-md-icon icon="thumb_up" size="20" id="{{ post._id + 'upvote' }}" ng-show="auth" class="upvote" ng-click="incrementUpvotes(post)"></ng-md-icon> {{post.upvotes[0].value}}
+                            <ng-md-icon icon="thumb_down" size="20" id="{{ post._id + 'downvote' }}" ng-show="auth" class="downvote" ng-click="decrementUpvotes(post)"></ng-md-icon> {{post.downvotes[0].value}}
+                        </div>
+                        <span class="col-sm-offset-10 col-xs-offset-10 glyphicon glyphicon-comment"></span> <span>{{ sizeOf(post.comments) }} </span>
                     </li>
                 </ul>
             </div>
-
             <div class="col-md-12">
-                
-                <form  ng-show="user==='TanyaAdmin'" ng-submit="addPost()"  style="margin-top:30px;">
-                    <h3>Додати новий пост</h3>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Назва посту" ng-model="title"></input>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Сам пост" ng-model="content"></input>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Додати</button>
+                <form ng-if="isAdmin===true" flex="100"  style="margin-top:30px;">
+                <div layout="row" layout-align="space-between center">
+                    <md-button class="md-warn" ng-click="add=!add">Создать новый пост</md-button>
+                    <md-button  ng-click="addPost(newPost)" class="md-primary" ng-show="add===true">Создать</md-button>
+                    
+                </div>
+                    <md-content ng-show="add===true">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <input type="text" class="form-control" placeholder="Название поста" ng-model="newPost.title"></input>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <textarea type="text" class="form-control" placeholder="Первый параграф" ng-model="newPost.content[0]" rows="3" cols="10"></textarea>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <textarea type="text" class="form-control" placeholder="Второй параграф" ng-model="newPost.content[1]" rows="3" cols="10"></textarea>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <textarea type="text" class="form-control" placeholder="Третий параграф" ng-model="newPost.content[2]" rows="3" cols="10"></textarea>
+                        </md-input-container>
+
+                    </md-content>
+
+                    <md-button ng-show="add==true" ng-click="addParagraph=!addParagraph" class="md-primary">Добавить Параграфы</md-button>
+                    <md-content ng-show="addParagraph===true">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <textarea type="text" class="form-control" placeholder="Четвертый параграф" ng-model="newPost.content[3]" rows="3" cols="10"></textarea>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <textarea type="text" class="form-control" placeholder="Пятый параграф" ng-model="newPost.content[4]" rows="3" cols="10"></textarea>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <textarea type="text" class="form-control" placeholder="Шестой параграф" ng-model="newPost.content[5]" rows="3" cols="10"></textarea>
+                        </md-input-container>
+                        
+                    </md-content>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+

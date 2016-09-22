@@ -1,10 +1,12 @@
 var express = require('express');
-var itemRouter = express.Router();
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var Item = mongoose.model('Item');
+var Item = require('../models/items');
+var Verify = require('./verify');
 
 
-
+var itemRouter = express.Router();
+itemRouter.use(bodyParser.json())
 
 itemRouter.route('/')
     .get(function(req, res, next) {
@@ -16,7 +18,7 @@ itemRouter.route('/')
             res.json(items);
         });
     })
-    .post(function(req, res, next) {
+    .put(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
         var item = new Item(req.body);
 
         item.save(function(err, item) {
@@ -28,12 +30,29 @@ itemRouter.route('/')
         });
     })
 itemRouter.route('/:itemId')
-    .delete(function(req, res, next) {
-        Item.findByIdAndRemove(req.params.itemId, function(err, resp) {
+    .get(function(req, res, next) {
+        Item.findById(req.params.itemId, function(err, item) {
             if (err) return next(err);
-            res.json(resp);
+            res.json(item);
+        });
+    })
+    .put(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
+        Item.findByIdAndUpdate(req.params.itemId, {
+            $set: req.body
+        }, {
+            new: true
+        }, function(err, item) {
+            if (err) return next(err);
+            res.json(item)
+        })
+    })
+    .delete(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
+        Item.findByIdAndRemove(req.params.itemId, function(err, item) {
+            if (err) return next(err);
+            res.json(item);
         });
     });
+
 
 
 

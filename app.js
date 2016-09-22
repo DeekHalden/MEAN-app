@@ -6,25 +6,34 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var mongoose     = require('mongoose');
 var passport     = require('passport');
+var authenticate = require('./authenticate');
+var config       = require('./config');
 
-require('./models/Posts');
-require('./models/Comments');
-require('./models/Phrases');
-require('./models/Users');
-require('./models/Items');
+mongoose.Promise = global.Promise;
+mongoose.connect(config.mongoUrl);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  // we're connected!
+  console.log("Connected correctly to server");
+});
 
-require('./config/passport');
 
-mongoose.connect('mongodb://dmytro:43431q@ds042459.mlab.com:42459/psycol-site');
 var routes       = require('./routes/index');
 var users        = require('./routes/users');
-var items        = require('./routes/items');
 var checkout     = require('./routes/checkout');
-var app          = express();
+var items        = require('./routes/items');
+var blog         = require('./routes/blog');
+var phrases      = require('./routes/phrase');
 
+var app = express();
+
+
+
+var port = process.env.PORT || 5000;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -32,15 +41,19 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(passport.initialize());
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static( path.join(__dirname, '/bower_components')) );
-app.use(passport.initialize());
+app.use('/node_modules',  express.static( path.join(__dirname, '/node_modules')) );
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/market', items);
 app.use('/checkout', checkout);
-
+app.use('/market', items);
+app.use('/blog', blog);
+app.use('/phrases', phrases)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -73,28 +86,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
-var http = require('http');
-
-/**
- * Get port from environment and store in Express.
- */
-
-var port = process.env.PORT || '4000';
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port,function(){
-  console.log('Magic happens here http://localhost:' +port);
+app.listen(port, function() {
+    console.log('Our app is running on http://localhost:' + port);
 });
-
 
 module.exports = app;

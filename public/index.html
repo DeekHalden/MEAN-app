@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="flapperNews">
+<html ng-app="meanApp">
 
 <head>
     <meta charset="utf-8">
@@ -8,23 +8,16 @@
     <base href="/">
     <title>Сайт психолога</title>
     <!-- inject:vendor:js -->
-    <script src="/bower_components/angular/angular.min.js"></script>
-    <script src="/bower_components/angular-animate/angular-animate.js"></script>
-    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="/bower_components/angular-resource/angular-resource.js"></script>
-    <script src="/bower_components/angular-touch/angular-touch.js"></script>
-    <script src="/bower_components/angular-scroll/angular-scroll.min.js"></script>
-    <script src="/bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
-    <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
-    <script src="/bower_components/angular-google-places-autocomplete/src/autocomplete.js"></script>
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="/bower_components/ngCart/dist/ngCart.min.js"></script>
-    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
-    <link href="/bower_components/angular-loading-bar/build/loading-bar.min.css" type='text/css' media='all'>
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../bower_components/ng-dialog/css/ngDialog.min.css" rel="stylesheet">
+    <link href="../bower_components/ng-dialog/css/ngDialog-theme-plain.min.css" rel="stylesheet">
+    <link href="../bower_components/ng-dialog/css/ngDialog-theme-default.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/bower_components/angular-google-places-autocomplete/src/autocomplete.css">
+    <link rel="stylesheet" href="../node_modules/angular-material/angular-material.css">
+    <link rel="stylesheet" href="stylesheets/reset.css">
     <link rel="stylesheet" href="stylesheets/style.css">
     <!-- endinject -->
 </head>
@@ -33,6 +26,22 @@
     <div ui-view="header"></div>
     <div ui-view="content"></div>
     <div ui-view="footer"></div>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/bower_components/angular-resource/angular-resource.js"></script>
+    <script src="/bower_components/ng-dialog/js/ngDialog.min.js"></script>
+    <script src="/bower_components/angular-scroll/angular-scroll.min.js"></script>
+    <script src="../node_modules/angular-aria/angular-aria.js"></script>
+    <script src="../node_modules/angular-material/angular-material.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBve63EifhWxvQkOrdwvXKhyyf1Ezje96o&libraries=places"></script>
+    <script src="/bower_components/angular-google-places-autocomplete/src/autocomplete.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/bower_components/ngCart/dist/ngCart.min.js"></script>
+    <script src="/bower_components/angular-route/angular-route.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.7.1/angular-material-icons.min.js"></script>
     <script src="/javascripts/angularApp.js"></script>
     <script src="/javascripts/services.js"></script>
     <script src="/javascripts/controllers.js"></script>

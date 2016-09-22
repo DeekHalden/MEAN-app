@@ -1,22 +1,28 @@
 {
-  "name": "flapper-news",
+  "name": "try",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "angular-aria": "^1.5.8",
+    "angular-material": "^1.1.1",
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
-    "ejs": "~2.4.1",
     "express": "~4.13.4",
-    "express-jwt": "^3.4.0",
-    "jsonwebtoken": "^7.1.9",
-    "mongoose": "^4.5.9",
-    "morgan": "~1.7.0",
+    "jade": "~1.11.0",
+    "jsonwebtoken": "^5.7.0",
+    "mongoose": "^4.4.8",
+    "mongoose-currency": "^0.2.0",
+    "morgan": "~1.6.1",
+    "nodemon": "^1.10.2",
     "passport": "^0.3.2",
+    "passport-facebook": "^2.1.0",
     "passport-local": "^1.0.0",
-    "serve-favicon": "~2.3.0"
+    "passport-local-mongoose": "^4.0.0",
+    "serve-favicon": "~2.3.0",
+    "twilio": "^3.0.0-rc.5"
   }
 }

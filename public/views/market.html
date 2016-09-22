@@ -1,63 +1,37 @@
-<div class="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="page-header">
-                    <h1>{{header}}</h1>
-                </div>
-                <ul class="post-grid">
-                    <li class="col-sm-6" ng-repeat="item in items">
-                        <md-card >
-                            <md-card-title-media>
-                              <img ng-src="{{item.image }}" class="md-card-image " alt="Маска">
-                              </md-card-title-media>
-                            <md-card-content>
-                                <h2>{{item.title}} </h2>
-                                <p>{{item.description}} </p>
-                                
-                            </md-card-content>
-                            <md-card-footer>
-                                <span>{{item.stock}} шт. в наявності </span>
-                                <p>{{item.price/100  | currency :"₴"}}
-                                </p>
-                                <ngcart-addtocart  id="{{item._id}}" quantity="1" quantity-max="9" name="{{item.title}}" price="{{item.price}}" template-url="views/addtocart.html" data="product">Add to Cart</ngcart-addtocart>
-                            </md-card-footer>
-
-                            <button class="btn-danger" ng-click="delete($index)" ng-show="user==='TanyaAdmin'">Видалити</button>
-                        </md-card>
-                       <!--  <a href="#/market/{{item._id}}">
-                            <span style="font-size:20px; margin-left:10px;">{{item.title}} </span>
-                            <span>| {{item.description}}  {{item.stock}} шт. в наличие </span> <img ng-src="{{ item.image }}"> </span><span>{{item.price/100  | currency :"₴"}}</span>
-                        </a>
-                        <button class="btn-danger" ng-click="delete($index)" ng-show="user==='TanyaAdmin'">Видалити</button> -->
-                    </li>
-                </ul>
-            </div>
-        </div>
+<md-toolbar md-scroll-shrink ng-if="isAdmin===true">
+    <div class="md-toolbar-tools">
+        <p><strong>Административная Панель</strong></p>
+        <md-button ng-click="openSidebar()">
+            <md-icon class="mdi mdi-plus-circle"></md-icon>
+            Новый товар
+        </md-button>
+        <!-- <md-button ng-click="showFilters = !showFilters">
+      <md-icon class="mdi mdi-magnify"></md-icon>
+      Filters
+    </md-button> -->
     </div>
-    <div class="container">
-        <div style="margin-top:20px;" class="button-container col-sm-12 " ng-show="user==='TanyaAdmin'">
-            <button  class="btn-primary add" ng-click="showDetails = !showDetails"><a ng-click="gotoBottom()">Додати товар</a></button>
-        </div>
-        <form id="form" ng-submit="addItem()" ng-show="showDetails" style="margin-top:100px;">
-        <h3 class="col-sm-12">Додати новий продукт</h3>
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="Назва товару" ng-model="title"></input>
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="Характеристики" ng-model="description"></input>
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="Ціна" ng-model="price"></input>
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="Кількість" ng-model="stock"></input>
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="Фото" ng-model="photo"></input>
-        </div>
-        <button type="submit" class="btn btn-primary">Додати</button>
-    </form>
-    </div>
-    
+</md-toolbar>
+<ui-view></ui-view>
+<div class="page-header">
+    <h1>{{header}}</h1>
 </div>
+<md-content class="md-padding" layout="row" layout-xs="column" layout-align="space-around" layout-wrap>
+    
+            <md-card ng-repeat="item in items" flex="100" flex-gt-sm="45">
+
+                <a ui-sref="app.item({id:item._id})">
+                    <img ng-src="{{item.image}}" alt="Маска">
+                </a>
+                    <md-card-content>
+                        <h2>{{item.title}} </h2>
+                        <p>{{item.description}} </p>
+                        <span>{{item.stock}} шт. в наличии </span>
+                        <p>{{item.price | currency :"₴"}}
+                        </p>
+                        <ngcart-addtocart id="{{item._id}}" quantity="1" quantity-max="9" name="{{item.title}}" price="{{item.price}}" template-url="views/addtocart.html" data="product">Добавить в заказ</ngcart-addtocart>
+                        <md-button class="md-primary" ng-if="isAdmin===true" ng-click="editItem(item)">Редактировать</md-button>
+                        <md-button class="md-warn" ng-if="isAdmin===true" ng-click="delete(event,item)">Удалить</md-button>
+                    </md-card-content>
+            </md-card>
+  
+</md-content>
