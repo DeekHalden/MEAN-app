@@ -1,5 +1,5 @@
-<md-content class="md-padding">
-	<md-card>
+<md-content class="md-padding test_background">
+	<md-card class="md-padding test_card">
 		<div class="quiz-area" ng-show="inProgress">
 		    <div ng-show="!quizOver">
 		        <h2 id="question">{{question}}</h2>
@@ -10,10 +10,8 @@
 		                </label>
 		            </li>
 		        </ul>
-		        <md-button ng-click="checkAnswer()" class="md-warn" ng-show="answerMode">Подтвердить</md-button>
-		        <div ng-show="!answerMode">
-		            <md-button ng-click="nextQuestion()" class="next-question md-primary">Следующий вопрос</md-button>
-		        </div>
+		        <md-button ng-click="checkAnswer()" class="md-warn" >Подтвердить</md-button>
+		        
 		    </div>
 		    <div ng-show="quizOver">
 		        <h2>Ваш резутьтат</h2>
@@ -23,9 +21,9 @@
 		        <md-button class="md-primary" ng-click="reset()">Пройти снова</md-button>
 		    </div>
 		</div>
-		<div class="intro" ng-show="!inProgress">
+		<div class="intro" layout="column" layout-align="center center"  ng-show="!inProgress">
 		    <p>Тест на Креативность</p>
-		    <md-button id="startQuiz" ng-click="start()">Начать опрос</md-button>
+		    <md-button id="startQuiz" class="md-warn" ng-click="start()">Начать опрос</md-button>
 		</div>
 
 	</md-card>

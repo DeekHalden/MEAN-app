@@ -1,4 +1,4 @@
-<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-open="vm.sidenavOpen">
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="new" md-is-open="vm.sidenavOpen" aria-label="new">
     <md-toolbar>
         <h1 class="md-toolbar-tools">Добавить Товар</h1>
     </md-toolbar>
@@ -21,7 +21,7 @@
             </md-input-container>
             <md-input-container>
                 <label for="image">Фото</label>
-                <input type="text" id="image" ng-model="item.photo">
+                <input type="file" name="myImage" image-with-preview accept="image/jpeg,image/png" id="image" ng-model="item.photo">
             </md-input-container>
             <md-input-container>
                 <label for="image">Количество</label>

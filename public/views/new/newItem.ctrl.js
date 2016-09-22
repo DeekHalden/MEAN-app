@@ -10,12 +10,12 @@
             vm.saveClassified = saveClassified;
 
             $timeout(function() {
-                $mdSidenav('left').open();
+                $mdSidenav('new').open();
             });
 
             $scope.$watch('vm.sidenavOpen', function(sidenav) {
                 if (sidenav === false)
-                    $mdSidenav('left')
+                    $mdSidenav('new')
                     .close()
                     .then(function() {
                         $state.go('app.market')

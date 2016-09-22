@@ -7,7 +7,6 @@ angular.module('meanApp', ['ui.router',
     'ui.bootstrap',
     'ngAnimate',
     'ngResource',
-    'duScroll',
     'ngMaterial',
     'ngCart', 'ngRoute',
     'google.places', 'ngDialog','ngMdIcons'

@@ -387,6 +387,24 @@ md-content .ext-content {
   color:#fff;
 }
 
+.test_background {
+    background: url('../images/head.png')no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: 900px;
+}
+
+.test_card {
+  max-width: 800px;
+  margin:0 auto;
+}
+
+.intro p {
+  text-transform: uppercase;
+  letter-spacing: 1;
+}
+
 @media only screen and (max-width: 959px) {
     md-sidenav ._md-nav-bar-list {
         display: inline;
