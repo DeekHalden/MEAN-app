@@ -8,6 +8,7 @@ var mongoose     = require('mongoose');
 var passport     = require('passport');
 var authenticate = require('./authenticate');
 var config       = require('./config');
+var compression  = require('compression')
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.mongoUrl);
@@ -27,7 +28,7 @@ var blog         = require('./routes/blog');
 var phrases      = require('./routes/phrase');
 
 var app = express();
-
+app.use(compression());
 
 
 var port = process.env.PORT || 5000;
