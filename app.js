@@ -10,7 +10,7 @@ var authenticate = require('./authenticate');
 var config       = require('./config');
 var compression  = require('compression')
 
-mongoose.Promise = global.Promise;
+
 mongoose.connect(config.mongoUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -18,15 +18,6 @@ db.once('open', function () {
   // we're connected!
   console.log("Connected correctly to server");
 });
-
-
-var routes       = require('./routes/index');
-var users        = require('./routes/users');
-var checkout     = require('./routes/checkout');
-var items        = require('./routes/items');
-var blog         = require('./routes/blog');
-var phrases      = require('./routes/phrase');
-
 var app = express();
 app.use(compression());
 
@@ -49,12 +40,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static( path.join(__dirname, '/bower_components')) );
 app.use('/node_modules',  express.static( path.join(__dirname, '/node_modules')) );
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/checkout', checkout);
-app.use('/market', items);
-app.use('/blog', blog);
-app.use('/phrases', phrases)
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
+app.use('/checkout', require('./routes/checkout'));
+app.use('/market', require('./routes/items'));
+app.use('/blog', require('./routes/blog'));
+app.use('/phrases', require('./routes/phrase'));
+app.use('/quizes', require('./routes/quizes'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
