@@ -29,14 +29,12 @@ angular.module('conFusion.controllers', [])
         $scope.login = function() {
             $scope.modal.show();
         };
-        $scope.isAuthenticated = AuthFactory.isAuthenticated();
-        console.log($scope.isAuthenticated);
         // Perform the login action when the user submits the login form
 
 
         $scope.doLogin = function() {
             console.log('Doing login', $scope.loginData);
-            if ($scope.rememberMe) $localStorage.storeObject('userinfo', $scope.loginData);
+            $localStorage.storeObject('userinfo', $scope.loginData);
             AuthFactory.login($scope.loginData);
 
             $timeout(function() {
@@ -44,6 +42,8 @@ angular.module('conFusion.controllers', [])
             }, 1000);
 
         };
+        $scope.isAuthenticated = AuthFactory.isAuthenticated();
+        console.log($scope.isAuthenticated);
 
         $scope.logout = AuthFactory.logout();
         // Form data for the reservation modal
@@ -70,8 +70,8 @@ angular.module('conFusion.controllers', [])
 
         // Perform the registration action when the user submits the registration form
         $scope.doRegister = function() {
-            console.log('Doing reservation', $scope.reservation);
-
+            console.log('Doing registration', $scope.registration);
+            AuthFactory.register($scope.registration);
             // Simulate a registration delay. Remove this and replace with your registration
             // code if using a registration system
             $timeout(function() {
@@ -204,7 +204,7 @@ angular.module('conFusion.controllers', [])
 
     var posts = BlogFactory.query(function(response) {
         $scope.posts = response;
-        console.log($scope.posts);
+        
     }, function(response) { $scope.message = 'Error: ' + response.status + ' ' + response.statusText; });
 
 

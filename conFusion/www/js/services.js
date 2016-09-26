@@ -188,7 +188,7 @@ angular.module('conFusion.services', ['ngResource'])
         $resource(baseURL + "users/register")
             .save(registerData,
                 function(response) {
-                    authFac.login({ username: registerData.username, password: registerData.password });
+                    authFac.login({ username: registerData.username, password: registerData.password, token: registerData.token });
                     if (registerData.rememberMe) {
                         $localStorage.storeObject('userinfo', { username: registerData.username, password: registerData.password });
                     }
