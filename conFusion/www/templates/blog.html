@@ -4,21 +4,21 @@
     <div class="page-header">
         <h1>Психологический блог</h1>
     </div>
-    <ul class="post-grid" layout="row" layout-xs="column">
-        <li class="item card item-text-wrap" ng-repeat="post in posts | orderBy:'date'">
-            <a href="#/blog/{{post._id}}">
+    <ion-list class="post-grid" layout="row" layout-xs="column">
+        <ion-item href="#/app/blog/{{post._id}}" class="item card item-text-wrap" ng-repeat="post in posts | orderBy:'date'">
+
                 <div class="item item-text-wrap">{{post.title}}
                     <span>| автор:  {{post.author}} </span>
                 </div>
                 <div class="item item-text">{{post.content[0][0]}} ...</div>
-            </a>
+
             <div class="btn-group">
                 <i class="icon ion-thumbsup" size="20" id="{{ post._id + 'upvote' }}" class="upvote" ng-click="incrementUpvotes(post)"></i> {{post.upvotes[0].value}}
                 <i class="icon ion-thumbsdown" size="20" id="{{ post._id + 'downvote' }}" class="downvote" ng-click="decrementUpvotes(post)"></i> {{post.downvotes[0].value}}
             <span class="icon ion-android-chat"></span> <span>{{ sizeOf(post.comments) }} </span>
             </div>
-        </li>
-    </ul>
+        </ion-item>
+    </ion-list>
 </div>
 
 </ion-view>

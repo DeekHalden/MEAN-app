@@ -1,6 +1,6 @@
 angular.module('conFusion.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $localStorage, $ionicPlatform, $cordovaCamera, $cordovaImagePicker,AuthFactory) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $localStorage, $ionicPlatform, $cordovaCamera, $cordovaImagePicker, AuthFactory) {
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
         // To listen for when this page is active (for example, to refresh data),
@@ -29,23 +29,27 @@ angular.module('conFusion.controllers', [])
         $scope.login = function() {
             $scope.modal.show();
         };
-
+        $scope.isAuthenticated = AuthFactory.isAuthenticated();
+        console.log($scope.isAuthenticated);
         // Perform the login action when the user submits the login form
+
+
         $scope.doLogin = function() {
             console.log('Doing login', $scope.loginData);
-            $localStorage.storeObject('userinfo', $scope.loginData);
+            if ($scope.rememberMe) $localStorage.storeObject('userinfo', $scope.loginData);
             AuthFactory.login($scope.loginData);
-            // Simulate a login delay. Remove this and replace with your login
-            // code if using a login system
+
             $timeout(function() {
                 $scope.closeLogin();
             }, 1000);
+
         };
 
+        $scope.logout = AuthFactory.logout();
         // Form data for the reservation modal
 
         // Create the reserve modal that we will use later
-       
+
 
         // Create the registration modal that we will use later
         $ionicModal.fromTemplateUrl('templates/register.html', {
@@ -194,11 +198,16 @@ angular.module('conFusion.controllers', [])
     $scope.item = {};
     $scope.message = "Loading ...";
     $scope.item = MarketFactory.get({ id: $stateParams.id }).$promise.then(function(response) { $scope.item = response; }, function(response) { $scope.message = 'Error: ' + response.status + ' ' + response.statusText; })
-}]).controller('BlogController', ['$scope', 'BlogFactory', '$state', 'PostFactory', 'AuthFactory', function($scope, BlogFactory, $state,  PostFactory, AuthFactory) {
+}]).controller('BlogController', ['$scope', 'BlogFactory', '$state', 'PostFactory', 'AuthFactory', function($scope, BlogFactory, $state, PostFactory, AuthFactory) {
     $scope.isAdmin = AuthFactory.isAdmin();
     $scope.auth = AuthFactory.isAuthenticated();
 
-    var posts = BlogFactory.query(function(response) { $scope.posts = response; }, function(response) { $scope.message = 'Error: ' + response.status + ' ' + response.statusText; });
+    var posts = BlogFactory.query(function(response) {
+        $scope.posts = response;
+        console.log($scope.posts);
+    }, function(response) { $scope.message = 'Error: ' + response.status + ' ' + response.statusText; });
+
+
     $scope.user = AuthFactory.getUsername();
     $scope.addPost = function(post) {
         if (!post.title || post.title === '') {
@@ -214,7 +223,7 @@ angular.module('conFusion.controllers', [])
         $mdDialog.show(confirm).then(function() {
             var index = $scope.posts.indexOf(post);
             BlogFactory.delete({ id: post._id }, function(success) { $scope.posts.splice(index, 1); });
-   
+
         });
     };
     $scope.sizeOf = function(obj) {
@@ -229,12 +238,13 @@ angular.module('conFusion.controllers', [])
     $scope.incrementUpvotes = function(post) { PostFactory.upvote(post); };
     $scope.decrementUpvotes = function(post) { PostFactory.downvote(post); };
 
-    
-}]).controller('PostController', ['$scope', '$state', 'commentFactory', 'BlogFactory', 'PostFactory', 'AuthFactory', '$stateParams', 'ngDialog', function($scope, $state, commentFactory, BlogFactory, PostFactory, AuthFactory, $stateParams, ngDialog) {
+
+}]).controller('PostController', ['$scope', '$state', 'commentFactory', 'BlogFactory', 'PostFactory', 'AuthFactory', '$stateParams', function($scope, $state, commentFactory, BlogFactory, PostFactory, AuthFactory, $stateParams) {
     $scope.post = {};
     $scope.post = BlogFactory.get({ id: $stateParams.id }).$promise.then(function(response) { $scope.post = response; }, function(response) { $scope.message = 'Error: ' + response.status + ' ' + response.statusText; });
     $scope.user = AuthFactory.getUsername();
     $scope.auth = AuthFactory.isAuthenticated();
+    console.log($scope.auth);
     $scope.addComment = function() {
         if ($scope.body === '') {
             return false;
@@ -250,7 +260,7 @@ angular.module('conFusion.controllers', [])
         PostFactory.downvoteComment(post, comment);
         $state.go($state.current, {}, { reload: true });
     };
-    $scope.openLogin = function() { ngDialog.open({ template: 'views/login.html', scope: $scope, className: 'ngdialog-theme-default', controller: "LoginController" }); };
+    // $scope.openLogin = function() { ngDialog.open({ template: 'views/login.html', scope: $scope, className: 'ngdialog-theme-default', controller: "LoginController" }); };
 }]).controller('CheckoutController', ['$scope', '$state', 'ngCart', 'orderFactory', '$mdToast', function($scope, $state, ngCart, orderFactory, $mdToast) {
     $scope.order = { place: '', method: '', name: '', email: '', telephone: '', delivery: '' }
     $scope.errors = '';

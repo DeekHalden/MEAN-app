@@ -35,12 +35,12 @@ angular.module('conFusion', ['ionic', 'ngCordova', 'conFusion.controllers','conF
     });
 
     $rootScope.$on('$stateChangeStart', function () {
-        console.log('Loading ...');
+        
         $rootScope.$broadcast('loading:show');
     });
 
     $rootScope.$on('$stateChangeSuccess', function () {
-        console.log('done');
+        
         $rootScope.$broadcast('loading:hide');
     });
 
@@ -75,14 +75,15 @@ angular.module('conFusion', ['ionic', 'ngCordova', 'conFusion.controllers','conF
       }
     })
 
-  //  .state('app.contactus', {
-  //     url: '/contactus',
-  //     views: {
-  //       'mainContent': {
-  //         templateUrl: 'templates/contactus.html'
-  //       }
-  //     }
-  //   })
+   .state('app.post', {
+      url: '/blog/:id',
+      views: {
+        'mainContent': {
+          templateUrl: 'templates/post.html',
+          controller: "PostController"
+        }
+      }
+    })
   
   //   .state('app.favorites', {
   //     url: '/favorites',
