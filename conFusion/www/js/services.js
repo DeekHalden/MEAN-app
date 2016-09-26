@@ -38,12 +38,12 @@ angular.module('conFusion.services', ['ngResource'])
             }
         })
     }])
-    .factory('PostFactory', ['$http', function($http) {
+    .factory('PostFactory', ['$http','baseURL', function($http,baseURL) {
         var o = {
             posts: []
         };
         o.upvote = function(post) {
-            return $http.put('/blog/' + post._id + '/upvote', null, {
+            return $http.put(baseURL+'/blog/' + post._id + '/upvote', null, {
 
             }).success(function(data) {
                 console.log(post);
@@ -54,7 +54,7 @@ angular.module('conFusion.services', ['ngResource'])
 
 
         o.downvote = function(post) {
-            return $http.put('/blog/' + post._id + '/downvote', null, {
+            return $http.put(baseURL+'/blog/' + post._id + '/downvote', null, {
 
             }).success(function(data) {
                 post.downvotes[0].value -= 1;
@@ -62,7 +62,7 @@ angular.module('conFusion.services', ['ngResource'])
         };
         o.upvoteComment = function(post, comment) {
 
-            return $http.put('/blog/' + post._id + '/comments/' + comment._id + '/upvote', null, {
+            return $http.put(baseURL+'/blog/' + post._id + '/comments/' + comment._id + '/upvote', null, {
 
             }).success(function(data) {
                 comment.upvotes[0].value += 1;
@@ -72,7 +72,7 @@ angular.module('conFusion.services', ['ngResource'])
 
 
         o.downvoteComment = function(post, comment) {
-            return $http.put('/blog/' + post._id + '/comments/' + comment._id + '/downvote', null, {
+            return $http.put(baseURL+'/blog/' + post._id + '/comments/' + comment._id + '/downvote', null, {
 
             }).success(function(data) {
                 comment.downvotes[0].value -= 1;
@@ -80,7 +80,7 @@ angular.module('conFusion.services', ['ngResource'])
         };
 
         o.get = function(id) {
-            return $http.get('/blog/' + id).then(function(res) {
+            return $http.get(baseURL+'/blog/' + id).then(function(res) {
                 return res.data;
             });
         };
