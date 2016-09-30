@@ -1,0 +1,22 @@
+<div class="container">
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <span  class="md-headline">{{item.title}}</span>
+            </md-card-title-text>
+            <md-card-title-media>
+                <div class="md-media-lg card-media"><img ng-src="{{item.image }}"  alt="Маска"></div>
+            </md-card-title-media>
+        </md-card-title>
+        <md-card-content>
+            <p>{{item.description}} </p>
+        </md-card-content>
+        <md-card-footer>
+            <span>{{item.stock}} шт. в наличии </span>
+            <p>{{item.price | currency :"₴"}}
+            </p>
+            <ngcart-addtocart class="md-royal" id="{{item._id}}" quantity="1" quantity-max="9" name="{{item.title}}" price="{{item.price}}" template-url="views/addtocart.html" data="product">Добавить в заказ</ngcart-addtocart>
+        </md-card-footer>
+        <button class="btn-danger" ng-click="delete($index)" ng-show="user==='dmytro'">Удалить</button>
+    </md-card>
+</div>

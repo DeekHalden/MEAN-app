@@ -1,0 +1,45 @@
+<md-toolbar md-scroll-shrink ng-if="isAdmin===true">
+    <div class="md-toolbar-tools">
+        <strong>Административная Панель</strong>
+        <md-button ng-click="openSidebar()">
+            <md-icon class="mdi mdi-plus-circle"></md-icon>
+            Новый товар
+        </md-button>
+        <!-- <md-button ng-click="showFilters = !showFilters">
+      <md-icon class="mdi mdi-magnify"></md-icon>
+      Filters
+    </md-button> -->
+    </div>
+</md-toolbar>
+<ui-view></ui-view>
+<div class="page-header">
+    <h1>{{header}}</h1>
+</div>
+<md-content class="md-padding" layout="row" layout-xs="column" layout-align="space-around" layout-wrap>
+    <md-card ng-repeat="item in items" flex="100" flex-gt-sm="45" class="market_item">
+        <md-button-group>
+            <md-button class="md-primary" ng-if="isAdmin===true" ng-click="editItem(item)">Редактировать</md-button>
+            <md-button class="md-warn" ng-if="isAdmin===true" ng-click="delete(event,item)">Удалить</md-button>
+        </md-button-group>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">{{item.title}}</span>
+                <span class="md-subhead">{{item.description}} </span>
+            </md-card-title-text>
+            <md-card-title-media>
+                <div class="md-media-xl card-media md-padding"><img ng-src="{{item.image }}" alt="Маска"></div>
+            </md-card-title-media>
+        </md-card-title>
+        <md-card-content>
+            <p></p>
+        </md-card-content>
+        <md-card-footer>
+            <span>{{item.stock}} шт. в наличии </span>
+            <p>{{item.price | currency :"₴"}}
+            </p>
+            <ngcart-addtocart id="{{item._id}}" quantity="1" quantity-max="9" name="{{item.title}}" price="{{item.price}}" template-url="views/addtocart.html" data="product">
+                <md-button class="md-primary">Добавить в заказ</md-button>
+            </ngcart-addtocart>
+        </md-card-footer>
+    </md-card>
+</md-content>

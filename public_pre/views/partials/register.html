@@ -1,0 +1,37 @@
+<div class="ngdialog-message">
+    <div class="">
+        <h3>Register </h3>
+    </div>
+    <div class="">&nbsp;</div>
+    <div class="">
+        <form ng-submit="doRegister()">
+            <md-input-container class="md-block">
+                <label class="sr-only" for="username">Username</label>
+                <input type="text" name="username" class="form-control input-sm" id="username" placeholder="Имя пользователя" ng-model="registration.username">
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label class="sr-only" for="password">Password</label>
+                <input type="password" class="form-control input-sm" id="password" placeholder="Пароль" ng-model="registration.password">
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label class="sr-only" for="firstname">First Name</label>
+                <input type="text" class="form-control input-sm" id="firstname" placeholder="Имя" ng-model="registration.firstname">
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label class="sr-only" for="lastname">Last Name</label>
+                <input type="text" class="form-control input-sm" id="lastname" placeholder="Фамилия" ng-model="registration.lastname">
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label class="sr-only" for="email">Email</label>
+                <input type="email" class="form-control input-sm" placeholder="email" ng-model="registration.email">
+            </md-input-container>
+            <md-input-container>
+                
+                    <md-checkbox ng-model="registration.rememberMe"> Запомнить меня
+                </md-checkbox>
+            </md-input-container><br>
+            <md-button type="submit" class="md-primary">Зарегистрироваться</md-button>
+            <md-button class="md-warn" ng-click=closeThisDialog("Cancel")>Отмена</md-button>
+        </form>
+    </div>
+</div>
