@@ -47,7 +47,7 @@ gulp.task('pre-img', ()=> {
 
 gulp.task('pre-js',()=> {
 	gulp.src('public/javascripts/**/*.js')
-		.pipe(concat('bundle.min.js'))
+		// .pipe(concat('bundle.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('public_pre/javascripts'));
 })
