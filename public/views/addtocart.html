@@ -12,7 +12,7 @@
            ng-click="ngCart.addItem(id, name, price, q, data)"
            ng-transclude></a>
     </div>
-    <mark  ng-show="inCart()">
-        Этот товар в Вашем заказе. <a ng-click="ngCart.removeItemById(id)" style="cursor: pointer;">Удалить</a>
+    <mark ng-show="inCart()">
+        Этот товар в Вашем заказе. <md-button  class="md-warn" ng-click="ngCart.removeItemById(id)" style="cursor: pointer;">Удалить</md-button>
     </mark>
 </div>

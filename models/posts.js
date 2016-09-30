@@ -1,51 +1,32 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    voting = require('mongoose-voting');
 
-var UpvotesSchema = new mongoose.Schema({
-    value: {
-        type: Number,
-        default: 0
+const CommentSchema = new Schema({
+    comment: {
+        type: String,
+        required: true
     },
-    upvotedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }
-});
-
-var DownvotesSchema = new mongoose.Schema({
-    value: {
-        type: Number,
-        default: 0
-
-    },
-    downvotedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }
-});
-
-var PostSchema = new mongoose.Schema({
-
-    title: String,
-    content: Array,
-    author: String,
-    upvotes: [UpvotesSchema],
-    downvotes: [DownvotesSchema],
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
-
+    postedBy: String,
+    quantity: Number,
 
 }, {
     timestamps: true
 });
 
-PostSchema.methods.upvote = function(cb) {
-    this.upvotes[0].value += 1;
-    this.save(cb);
-};
+const PostSchema = new Schema({
+    title: String,
+    content: Array,
+    postedBy: String,
+    comments: [CommentSchema]
+}, {
+    timestamps: true
+});
 
-PostSchema.methods.downvote = function(cb) {
-    this.downvotes[0].value -= 1;
-    this.save(cb);
-};
+CommentSchema.plugin(voting);
+PostSchema.plugin(voting);
 
 
-module.exports = mongoose.model('Post', PostSchema);
+const Posts = mongoose.model('Posts', PostSchema);
+
+module.exports = Posts;

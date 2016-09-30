@@ -7,22 +7,23 @@ var bodyParser   = require('body-parser');
 var mongoose     = require('mongoose');
 var passport     = require('passport');
 var authenticate = require('./authenticate');
-var config       = require('./config');
 var compression  = require('compression')
 
+var config       = require('./config');
 
 mongoose.connect(config.mongoUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
+db.once('open',  () =>{
   // we're connected!
-  console.log('Connected correctly to server');
+  console.log("Connected correctly to server");
 });
 var app = express();
 app.use(compression());
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Credentials, x-access-token');
+app.use((req, res, next) =>{
+  res.header("Access-Control-Allow-Origin", "*");
+  
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Credentials,x-access-token");
   next();
 });
 
@@ -55,7 +56,7 @@ app.use('/phrases', require('./routes/phrase'));
 app.use('/quizes', require('./routes/quizes'));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) =>{
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -66,7 +67,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use((err, req, res, next)=> {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -77,7 +78,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next)=> {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
@@ -85,8 +86,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.listen(port, function() {
-    console.log('Our app is running on http://localhost:' + port);
+app.listen(port, ()=> {
+    console.log(`Our app is running on http://localhost:${port}`);
 });
 
 module.exports = app;

@@ -1,38 +1,42 @@
-<div class="topbar">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
+<div class="topbar" layout="row" layout-align="center">
                 <h1 ui-sref="app.blog" class="clickable">Психологический блог</h1>
-            </div>
-            
-        </div>
     </div>
 </div>
-<div class="content">
-    <div class="container">
-        <div class="page-header">
+<md-content class="md-padding margined">
+    <md-card class="md-padding" >
+        <md-card-title-text>
             <h3>
-                <span>{{post.title}}</span>
+                <span>{{post.title}}</span><br>
+            <em> Автор {{post.postedBy}} </em>
             </h3>
-            <span ng-show="post.author"> posted by {{post.author}} |</span> 
-            <p ng-repeat="p in post.content[0]">{{p}}</p>
-        </div>
-        <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
-            <button class="glyphicon glyphicon-thumbs-up btn-success" ng-click="incrementUpvotes(post,comment)"></button> {{comment.upvotes[0].value}} 
-            <button class="glyphicon glyphicon-thumbs-down btn-danger" ng-click="decrementUpvotes(post,comment)"></button> {{comment.downvotes[0].value}} - {{comment.author}}
-            <span style="font-size:20px; margin-left:10px;">{{comment.body}}</span>
+        </md-card-title-text>
+            <p class="post_paragraph" ng-repeat="p in post.content[0]">{{p}}</p>
+        <div id="comments">    
+            <h4>Комментарии</h4>
+            <md-card ng-repeat="comment in post.comments | orderBy:'-upvotes'" layout="column">
+                <div layout="row" flex="10" layout-align="space-between">
+                    <md-card-title-text style="font-size:20px; margin-left:10px;"> <footer><em>{{comment.postedBy}}</em>  {{comment.updatedAt | date:'MMM. dd, yyyy'}}</footer></md-card-title-text>
+                    <!-- <md-card-actions>
+                        <md-button class="md-primary" ng-click="incrementUpvotes(post,comment)">+</md-button> <span>{{comment.upvotes[0].value}} </span>
+                        <md-button class="md-warn" ng-click="decrementUpvotes(post,comment)">-</md-button> <span>{{comment.vote}}</span> 
+                    </md-card-actions> -->
+                </div>
+                <md-content>
+                    <h4>{{comment.comment}}</h4>
+                </md-content>
+            </md-card>
         </div>
         <div ng-hide="auth">
-  <h3 ><a  ng-click="openLogin()">Войдите в систему</a> для того чтобы добавить новый комментарий.</h3>
-</div>
-        <form class="form-horizontal" ng-submit="addComment()" name="commentForm" ng-show="auth" style="margin-top:30px;" >
+            <h3><a  ng-click="openLogin()">Войдите в систему</a> для того чтобы добавить новый комментарий.</h3>
+        </div>
+        <form  class="md-padding" class="form-horizontal" ng-submit="addComment()" name="commentForm" ng-show="auth" style="margin-top:30px;">
             <h3>Добавить новый коментарий</h3>
-            <div class="form-group" ng-class="{ 'has-error' : commentForm.body.$error.required && !commentForm.body.$pristine }">
-                <input type="text" class="form-control" placeholder="Ваш комментарий" ng-model="body" required></input>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Добавить</button>
-            </div>
+            <md-input-container  ng-class="{ 'has-error' : commentForm.body.$error.required && !commentForm.body.$pristine }">
+                <textarea name ="body" type="text"  placeholder="Ваш комментарий" ng-model="mycomment.comment" required></textarea>
+            </md-input-container>
+            <md-input-container>
+                <md-button type="submit" class="md-primary">Добавить</md-primary>
+            </md-input-container>
         </form>
-    </div>
-</div>
+    </md-card>
+</md-content>

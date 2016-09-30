@@ -1,10 +1,11 @@
 const express = require('express'),
-      postsRouter = express.Router(),
-      Post = require('../models/posts'),
-      Comment = require('../models/comments'),
-      Verify = require('./verify');
+    postsRouter = express.Router(),
+    Post = require('../models/posts'),
+    bodyParser = require('body-parser'),
+    Verify = require('./verify'),
+    assert = require('assert');
 
-
+postsRouter.use(bodyParser.json());
 /* GET home page. */
 
 
@@ -20,6 +21,8 @@ postsRouter.get('/', function(req, res, next) {
 })
 
 .post('/', Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
+    console.log(req.decoded);
+    req.body.postedBy = req.decoded.username;
     var post = new Post(req.body);
     post.save(function(err, post) {
         if (err) {
@@ -55,137 +58,117 @@ postsRouter.get('/:post', function(req, res, next) {
         res.json(post);
     });
 });
-postsRouter.delete('/:postId',Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
-        Post.findByIdAndRemove(req.params.postId, function(err, post) {
-            if (err) return next(err);
-            res.json(post);
-        });
+postsRouter.delete('/:postId', Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
+    Post.findByIdAndRemove(req.params.postId, function(err, post) {
+        if (err) return next(err);
+        res.json(post);
     });
+});
 
 postsRouter.put('/:post/upvote', Verify.verifyOrdinaryUser, function(req, res, next) {
-    // req.post.upvote(function(err, post){
-    //   if (err) { return next(err); }
-
-    //   res.json(post);
-    // });
     Post.findById(req.params.postId, function(err, post) {
+        console.log(req.post);
         if (err) return next(err);
-        req.body.upvotedBy = req.decoded._id;
-        var found = false;
-        for (var i = 0; i < req.post.upvotes.length; i++) {
-            if (req.post.upvotes[i]._id == req.body.upvotedBy) {
-                found = true;
-                return false;
-            }
-        }
-        req.post.upvotes.push(req.body.upvotedBy);
+        const user = req.decoded._id;
+        if (req.post.downvoted === true) {
+            req.post.unvote(user, () => {
 
-        req.post.upvote(function(err, post) {
-            if (err) return next(err);
-            console.log('Post upvoted')
-            res.json(post);
-        })
+                res.json(req.post.votes());
+            })
+        } else {
+            req.post.upvote(user, () => {
+
+                res.json(req.post.votes());
+            })
+        }
     })
 });
 
 
 postsRouter.put('/:post/downvote', Verify.verifyOrdinaryUser, function(req, res, next) {
     Post.findById(req.params.postId, function(err, post) {
-        if (err) return next(err);
-        req.body.downvotedBy = req.decoded._id;
-        var found = false;
-        for (var i = 0; i < req.post.downvotes.length; i++) {
-            if (req.post.downvotes[i]._id == req.body.downvotedBy) {
-                found = true;
-                return false;
-            }
-        }
-        req.post.downvotes.push(req.body.downvotedBy);
 
-        req.post.downvote(function(err, post) {
-            if (err) return next(err);
-            console.log('Post downvoted')
-            res.json(post);
-        })
+        if (err) return next(err);
+        const user = req.decoded._id;
+        console.log(req.post);
+        if (req.post.upvoted === true) {
+            req.post.unvote(user, () => {
+                console.log(req.post.votes());
+                res.json(req.post.votes());
+            })
+        } else {
+            req.post.downvote(user, () => {
+                console.log(req.post.votes());
+                res.json(req.post.votes());
+
+            });
+
+        }
+
     })
 });
+postsRouter.get('/:post/comments', Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
+    Post.findById(req.params.postId)
+        .populate('comments.postedBy')
+        .exec((err, comments) => {
+            if (err) return next(err);
+
+            res.json(comments);
+        })
+
+});
+
 
 postsRouter.post('/:post/comments', Verify.verifyOrdinaryUser, function(req, res, next) {
-    var comment = new Comment(req.body);
-    comment.post = req.post;
+    Post.findById(req.params.postId, (err, post) => {
+        if (err) return next(err);
 
+        req.body.postedBy = req.decoded.username;
 
-    comment.save(function(err, comment) {
-        if (err) {
-            return next(err);
-        }
-
-        req.post.comments.push(comment);
+        req.post.comments.push(req.body);
         req.post.save(function(err, post) {
             if (err) {
                 return next(err);
             }
 
-            res.json(comment);
+            res.json(post);
         });
     });
-});
+})
 
-postsRouter.param('comment', function(req, res, next, id) {
-    var query = Comment.findById(id);
 
-    query.exec(function(err, comment) {
-        if (err) {
-            return next(err);
-        }
-        if (!comment) {
-            return next(new Error("can't find comment"));
-        }
-
-        req.comment = comment;
-        return next();
-    });
-});
-
-postsRouter.put('/:post/comments/:comment/upvote', Verify.verifyOrdinaryUser, function(req, res, next) {
-    Comment.findById(req.params.commentId, function(err, comment) {
-        if (err) return next(err);
-        req.body.upvotedBy = req.decoded._id;
-        var found = false;
-        for (var i = 0; i < req.comment.upvotes.length; i++) {
-            if (req.comment.upvotes[i]._id == req.body.upvotedBy) {
-                found = true;
-                return false;
-            }
-        }
-        req.comment.upvotes.push(req.body.upvotedBy);
-
-        req.comment.upvote(function(err, comment) {
-            if (err) return next(err);
-            console.log('Comment upvoted')
-            res.json(comment);
+postsRouter.post('/:post/comments/:comment/upvote', Verify.verifyOrdinaryUser, function(req, res, next) {
+    Post.findById(req.params.postId, (err, post) => {
+        
+        var user = req.decoded._id;
+        post = req.post;
+        comment = post.comments.id(req.params.comment);
+        console.log(comment);
+        comment.upvote(user,()=>{
+            res.json(comment.votes());
         })
-    })
+        // comment.upvote(user);
+        // console.log(comment);
+        // console.log(comment);
+        // req.comment.upvote(user, () => {
+        //     post.save(req.comment.votes());
+        //     res.json(req.comment.votes());
+        // });
+    });
 });
 
 postsRouter.put('/:post/comments/:comment/downvote', Verify.verifyOrdinaryUser, function(req, res, next) {
-    Comment.findById(req.params.commentId, function(err, comment) {
+    Comment.findById(req.params.commentId, (err, comment) => {
         if (err) return next(err);
-        req.body.downvotedBy = req.decoded._id;
-        var found = false;
-        for (var i = 0; i < req.comment.downvotes.length; i++) {
-            if (req.comment.downvotes[i]._id == req.body.downvotedBy) {
-                found = true;
-                return false;
-            }
-        }
-        req.comment.downvotes.push(req.body.downvotedBy);
+        console.log(req.params.comment);
+        console.log(req.post.comments[0]._idreq.params.comment);
+        var comment = req.params.comment;
+        const user = req.decoded._id;
+        comment.downvote(user, () => {
+            res.json(req.comment.votes());
+        });
 
-        req.comment.downvote(function(err, comment) {
-            if (err) return next(err);
-            console.log('Comment downvoted')
-            res.json(comment);
-        })
+
     })
 });
 

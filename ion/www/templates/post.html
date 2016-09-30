@@ -1,0 +1,28 @@
+<ion-view view-title="{{post.title}}" >
+    <ion-content overflow-scroll="false">
+    <div class="card">
+        <div class="item item-text-wrap item-divider">
+                {{post.title}}
+            <span ng-show="post.author"> posted by {{post.author}} |</span>
+        </div>
+            <p ng-repeat="p in post.content[0]">{{p}}</p>
+        <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+            <button class="glyphicon glyphicon-thumbs-up btn-success" ng-click="incrementUpvotes(post,comment)"></button> {{comment.upvotes[0].value}}
+            <button class="glyphicon glyphicon-thumbs-down btn-danger" ng-click="decrementUpvotes(post,comment)"></button> {{comment.downvotes[0].value}} - {{comment.author}}
+            <span style="font-size:20px; margin-left:10px;">{{comment.body}}</span>
+        </div>
+        <div ng-hide="isAuthenticated===true">
+            <h3><a ng-click="login()">Войдите в систему</a> для того чтобы добавить новый комментарий.</h3>
+        </div>
+        <form class="form-horizontal" ng-submit="addComment()" name="commentForm" ng-show="isAuthenticated===true" style="margin-top:30px;">
+            <h3>Добавить новый коментарий</h3>
+            <div class="form-group" ng-class="{ 'has-error' : commentForm.body.$error.required && !commentForm.body.$pristine }">
+                <input type="text" class="form-control" placeholder="Ваш комментарий" ng-model="body" required></input>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </div>
+        </form>
+    </div>
+    </ion-content>
+</ion-view>

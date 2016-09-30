@@ -1,10 +1,14 @@
 <div class="container">
     <md-card>
-        <md-card-title-media>
-            <img ng-src="{{item.image }}" class="md-card-image" alt="Маска">
-        </md-card-title-media>
+        <md-card-title>
+            <md-card-title-text>
+                <span  class="md-headline">{{item.title}}</span>
+            </md-card-title-text>
+            <md-card-title-media>
+                <div class="md-media-lg card-media"><img ng-src="{{item.image }}"  alt="Маска"></div>
+            </md-card-title-media>
+        </md-card-title>
         <md-card-content>
-            <h2>{{item.title}} </h2>
             <p>{{item.description}} </p>
         </md-card-content>
         <md-card-footer>
@@ -15,7 +19,4 @@
         </md-card-footer>
         <button class="btn-danger" ng-click="delete($index)" ng-show="user==='dmytro'">Удалить</button>
     </md-card>
-    
 </div>
-
-

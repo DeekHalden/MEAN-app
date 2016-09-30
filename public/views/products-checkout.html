@@ -1,13 +1,12 @@
-<navbar></navbar>
-<div class="container">
-    <div class="row">
+<div class="checkout_container container">
+    <div layout="column">
         <h1>Корзина заказа </h1>
-        <ngcart-cart template-url="views/cart.html"></ngcart-cart>
+        <ngcart-cart template-url="views/partials/cart.html"></ngcart-cart>
     </div>
-    <div class="row">
+    <div layout="row">
         <p class="help-block">{{ errors }}</p>
         <br>
-        <div class="col-md-4 col-sm-push-10">
+        <div>
             <md-button class="md-primary" ng-click="showDetails = !showDetails" ng-hide="totalCost===0">Оформить заказ</md-button>
         </div>
     </div>

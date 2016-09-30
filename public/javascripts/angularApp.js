@@ -4,10 +4,10 @@
  * Description
  */
 angular.module('meanApp', ['ui.router',
-    'ui.bootstrap',
     'ngAnimate',
     'ngResource',
     'ngMaterial',
+    'md.data.table',
     'ngCart', 'ngRoute',
     'google.places', 'ngDialog','ngMdIcons'
 ]).config(function($mdThemingProvider, $stateProvider, $urlRouterProvider) {
@@ -23,13 +23,16 @@ angular.module('meanApp', ['ui.router',
             url: '/',
             views: {
                 'header': {
-                    templateUrl: 'views/header.html',
+                    templateUrl: 'views/partials/header.html',
                     controller: 'HeaderController'
 
                 },
                 'content': {
                     templateUrl: 'views/home.html',
                     controller: 'HomeController'
+                },
+                'footer': {
+                    templateUrl: 'views/partials/footer.html'
                 }
             }
         })
@@ -44,14 +47,14 @@ angular.module('meanApp', ['ui.router',
         })
         .state('app.market.new', {
             url: '/new',
-            templateUrl: 'views/new/newItem.tpl.html',
+            templateUrl: 'views/partials/newItem.tpl.html',
             controller: 'newItemCtrl as vm'
 
         })
 
         .state('app.market.edit', {
             url: '/:id/edit',
-            templateUrl: 'views/edit/editItem.tpl.html',
+            templateUrl: 'views/partials/editItem.tpl.html',
             controller: 'editItemCtrl as vm',
             params: {
                 item: null
