@@ -66,7 +66,7 @@
         <h1>Психологический блог</h1>
     </div>
     <div class="post-grid md-padding" layout="row" layout-xs="column" layout-wrap layout-align="space-between">
-        <md-virtual-repeat-container id="vertical-container">
+        
             <md-card class="item" flex="100" flex-gt-sm="45" ng-repeat="post in posts | filter: textFilter | orderBy:'date'" layout="column">
                 <md-button ng-if="isAdmin===true" ng-click="deletePost(event,post)" class="md-warn">Удалить</md-button>
                 <br>
@@ -83,6 +83,6 @@
                 <div class="heading">{{post.content[0][0]}} ...</div>
                 <a href="#/blog/{{post._id}}#comments"><span align="right"  class="glyphicon glyphicon-comment"> {{ sizeOf(post.comments) }}</span></a>
             </md-card>
-        </md-virtual-repeat-container>
+        
     </div>
 </div>
