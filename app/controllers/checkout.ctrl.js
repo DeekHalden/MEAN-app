@@ -1,46 +1,46 @@
-var nodemailer = require('nodemailer');
-var mg = require('nodemailer-mailgun-transport');
-
-
-var sinchAuth = require('sinch-auth');
-
-var sinchSms = require('sinch-messaging');
-var auth = sinchAuth("a0bef58b-fc27-49d8-b2d4-2a60c5c6ec9b", "2Mkqe6fsrUqNwovNW2KMew==");
-var api_key = 'key-d40c168dc6123dfc8c143ccf1c1525ea';
-var domain = 'sandbox693909a1fb8a47879f32c3008dc45248.mailgun.org';
+require('dotenv').config();
+const nodemailer = require('nodemailer'),
+ mg = require('nodemailer-mailgun-transport'),
+ sinchAuth = require('sinch-auth'),
+ sinchSms = require('sinch-messaging'),
+ auth = sinchAuth(process.env.SINCH_API_KEY, process.env.SINCH_SECRET_KEY),
+ api_key = process.env.MAILGUN_API_KEY,
+ domain = process.env.MAILGUN_DOMAIN,
+ phoneNumber = process.env.PHONE_NUMBER,
+ targetedEmail = process.env.TARGETED_EMAIL
 
 
 module.exports = {
 	sendMail: (req,res,next) => {
         
-		var userData = req.body[req.body.length - 1];
+		let userData = req.body[req.body.length - 1];
         console.log(userData);
-        var userDetails = 'Пользователь ' + userData.name + ' из города ' + userData.place + ' заказал доставку в отделение \#' + userData.delivery + '\n Метод оплаты:'+userData.method+'. Email:  ' + userData.email + ' телефон: ' + userData.telephone + ' Свяжитесь как можно скорее!';
+        let userDetails = 'Пользователь ' + userData.name + ' из города ' + userData.place + ' заказал доставку в отделение \#' + userData.delivery + '\n Метод оплаты:'+userData.method+'. Email:  ' + userData.email + ' телефон: ' + userData.telephone + ' Свяжитесь как можно скорее!';
 
-        var arr = req.body[0];
+        let arr = req.body[0];
         console.log(arr);
 
-        var orderDetails = arr.map(function(item) {
+        let orderDetails = arr.map(function(item) {
             
                 return ''+item._name + ' в количестве ' + item._quantity + 'шт. с общей стоимостью ' + (item._price * item._quantity) + ' грн. \n';
         });
 
         orderDetails += userDetails;
         
-        sinchSms.sendMessage("+380668313993", orderDetails);
+        sinchSms.sendMessage(phoneNumber, orderDetails);
 
-        var auth = {
+        let auth = {
                 auth: {
                     api_key: api_key,
                     domain: domain
                 }
             }
            
-        var transporter = nodemailer.createTransport(mg(auth));
+        let transporter = nodemailer.createTransport(mg(auth));
 
-        var mailOptions = {
+        let mailOptions = {
             from: '' + userData.name + ' <' + userData.email + '>',
-            to: 'iliy4@ua.fm',
+            to: targetedEmail,
             subject: 'Email form my Page',
             text: orderDetails 
         };

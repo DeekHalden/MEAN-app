@@ -1,8 +1,8 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var User = require('./models/user');
-var config = require('./config');
-var FacebookStrategy = require('passport-facebook').Strategy;
+const passport = require('passport'),
+ LocalStrategy = require('passport-local').Strategy,
+ User = require('./models/user'),
+ config = require('./config'),
+ FacebookStrategy = require('passport-facebook').Strategy;
 
 exports.local = passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
@@ -13,8 +13,8 @@ exports.facebook = passport.use(new FacebookStrategy({
   clientSecret: config.facebook.clientSecret,
   callbackURL: config.facebook.callbackURL
   },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOne({ OauthId: profile.id }, function(err, user) {
+  (accessToken, refreshToken, profile, done) =>{
+    User.findOne({ OauthId: profile.id }, (err, user) =>{
       if(err) {
         console.log(err); // handle errors!
       }
@@ -26,7 +26,7 @@ exports.facebook = passport.use(new FacebookStrategy({
         });
         user.OauthId = profile.id;
         user.OauthToken = accessToken;
-        user.save(function(err) {
+        user.save((err) =>{
           if(err) {
             console.log(err); // handle errors!
           } else {

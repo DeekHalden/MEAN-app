@@ -1,25 +1,25 @@
 require('dotenv').config();
-var express      = require('express');
-var path         = require('path');
-var favicon      = require('serve-favicon');
-var logger       = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var mongoose     = require('mongoose');
-var passport     = require('passport');
-var authenticate = require('./app/authenticate');
-var compression  = require('compression')
+const express      = require('express');
+ path         = require('path'),
+ favicon      = require('serve-favicon'),
+ logger       = require('morgan'),
+ cookieParser = require('cookie-parser'),
+ bodyParser   = require('body-parser'),
+ mongoose     = require('mongoose'),
+ passport     = require('passport'),
+ authenticate = require('./app/authenticate'),
+ compression  = require('compression')
 
 
 
 mongoose.connect(process.env.MONGO_URL);
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open',  () =>{
   // we're connected!
   console.log("Connected correctly to server");
 });
-var app = express();
+const app = express();
 app.use(compression());
 app.use((req, res, next) =>{
   res.header("Access-Control-Allow-Origin", "*");
@@ -30,7 +30,7 @@ app.use((req, res, next) =>{
 
 
 
-var port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -58,7 +58,7 @@ app.use('/phrases', require('./app/routes/phrase'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) =>{
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });

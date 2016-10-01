@@ -2,8 +2,8 @@ const express = require('express'),
     phraseRouter = express.Router(),
     Phrase = require('../models/phrases');
 
-phraseRouter.get('/', function(req, res, next) {
-    Phrase.find(function(err, phrases) {
+phraseRouter.get('/', (req, res, next) =>{
+    Phrase.find((err, phrases) =>{
         if (err) {
             return next(err);
         }
