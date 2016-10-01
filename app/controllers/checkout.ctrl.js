@@ -13,14 +13,14 @@ const nodemailer = require('nodemailer'),
 module.exports = {
 	sendMail: (req,res,next) => {
         
-		let userData = req.body[req.body.length - 1];
+		var userData = req.body[req.body.length - 1];
         console.log(userData);
-        let userDetails = 'Пользователь ' + userData.name + ' из города ' + userData.place + ' заказал доставку в отделение \#' + userData.delivery + '\n Метод оплаты:'+userData.method+'. Email:  ' + userData.email + ' телефон: ' + userData.telephone + ' Свяжитесь как можно скорее!';
+        var userDetails = 'Пользователь ' + userData.name + ' из города ' + userData.place + ' заказал доставку в отделение \#' + userData.delivery + '\n Метод оплаты:'+userData.method+'. Email:  ' + userData.email + ' телефон: ' + userData.telephone + ' Свяжитесь как можно скорее!';
 
-        let arr = req.body[0];
+        var arr = req.body[0];
         console.log(arr);
 
-        let orderDetails = arr.map(function(item) {
+        var orderDetails = arr.map(function(item) {
             
                 return ''+item._name + ' в количестве ' + item._quantity + 'шт. с общей стоимостью ' + (item._price * item._quantity) + ' грн. \n';
         });
@@ -29,16 +29,16 @@ module.exports = {
         
         sinchSms.sendMessage(phoneNumber, orderDetails);
 
-        let auth = {
+        var auth = {
                 auth: {
                     api_key: api_key,
                     domain: domain
                 }
             }
            
-        let transporter = nodemailer.createTransport(mg(auth));
+        var transporter = nodemailer.createTransport(mg(auth));
 
-        let mailOptions = {
+        var mailOptions = {
             from: '' + userData.name + ' <' + userData.email + '>',
             to: targetedEmail,
             subject: 'Email form my Page',
