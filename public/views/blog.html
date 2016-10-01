@@ -83,7 +83,7 @@
                     <md-button class="md-warn small" id="{{ post._id + 'downvote' }}" class="downvote" ng-click="decrementUpvotes(post)">-</md-button><span>{{post.vote.negative.length}}</span>
                 </div>
                 <div class="heading">{{post.content[0][0]}} ...</div>
-                <a href="#/blog/{{post._id}}#comments"><span align="right"  class="glyphicon glyphicon-comment"> {{ sizeOf(post.comments) }}</span></a>
+                <a href="#/blog/{{post._id}}#comments"><span align="right"  class="fa fa-comment"> {{ sizeOf(post.comments) }}</span></a>
             </md-card>
         
     </div>
