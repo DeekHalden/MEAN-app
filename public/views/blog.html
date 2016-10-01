@@ -78,9 +78,10 @@
                         <span>| автор:  {{post.username}} |</span>
                     </a>
                 </div>
-                <div layout="row" layout-align="end center">
-                    <md-button class="md-primary small" id="{{ post._id + 'upvote' }}" class="upvote" ng-click="incrementUpvotes(post)">+</md-button><span>{{post.vote.positive.length}}</span>
-                    <md-button class="md-warn small" id="{{ post._id + 'downvote' }}" class="downvote" ng-click="decrementUpvotes(post)">-</md-button><span>{{post.vote.negative.length}}</span>
+                
+                <div layout="row" layout-align="end center" >
+                    <md-button ng-if="auth===true" class="md-primary small" id="{{ post._id + 'upvote' }}" class="upvote" ng-click="incrementUpvotes(post)">+</md-button><span>+{{post.vote.positive.length}}</span>
+                    <md-button ng-if="auth===true" class="md-warn small" id="{{ post._id + 'downvote' }}" class="downvote" ng-click="decrementUpvotes(post)">-</md-button><span>-{{post.vote.negative.length}}</span>
                 </div>
                 <div class="heading">{{post.content[0][0]}} ...</div>
                 <a href="#/blog/{{post._id}}#comments"><span align="right"  class="fa fa-comment"> {{ sizeOf(post.comments) }}</span></a>
