@@ -52,30 +52,32 @@ angular.module('meanApp')
 
 
         o.downvote = function(post) {
-            return $http.put('/blog/' + post._id + '/downvote', null, {
+            return $http.put('/blog/' + post._id + '/downvote', { id: '@_id' }, {
 
             }).success(function(data) {
                 
             });
         };
-        // o.upvoteComment = function(post, comment) {
+        // also unused methods
+        o.upvoteComment = function(post, comment) {
 
-        //     return $http.post('/blog/' + post._id + '/comments/' + comment._id + '/upvote', null, {
+            return $http.post('/blog/' + post._id + '/comments/' + comment._id + '/upvote', { id: '@_id', commentId: '@_commentId' }, {
 
-        //     }).success(function() {
+            }).success(function(data) {
+                console.log(data);
+               return data
+
+            });
+        };
+
+
+        o.downvoteComment = function(post, comment) {
+            return $http.post('/blog/' + post._id + '/comments/' + comment._id + '/downvote', { id: '@_id', commentId: '@_commentId' }, {
+
+            }).success(function(data) {
                
-
-        //     });
-        // };
-
-
-        // o.downvoteComment = function(post, comment) {
-        //     return $http.post('/blog/' + post._id + '/comments/' + comment._id + '/downvote', null, {
-
-        //     }).success(function() {
-                
-        //     });
-        // };
+            });
+        };
 
         o.get = function(id) {
             return $http.get('/blog/' + id).then(function(res) {
@@ -314,7 +316,7 @@ angular.module('meanApp')
             "value": 2
         }]
     }, {
-        "question": "За ограниченное время в незнакомом городе Вы успеваете осмотреть только одну достопримечательность. Какую?",
+        "question": "8. За ограниченное время в незнакомом городе Вы успеваете осмотреть только одну достопримечательность. Какую?",
         "options": [{
             "name": "Галерею современного искусства",
             "value": 1

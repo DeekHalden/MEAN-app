@@ -1,17 +1,17 @@
-var express      = require('express');
-var path         = require('path');
-var favicon      = require('serve-favicon');
-var logger       = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var mongoose     = require('mongoose');
-var passport     = require('passport');
-var authenticate = require('./authenticate');
-var compression  = require('compression')
+require('dotenv').config();
+const express      = require('express'),
+      path         = require('path'),
+      favicon      = require('serve-favicon'),
+      logger       = require('morgan'),
+      cookieParser = require('cookie-parser'),
+      bodyParser   = require('body-parser'),
+      mongoose     = require('mongoose'),
+      passport     = require('passport'),
+      authenticate = require('./app/authenticate'),
+      compression  = require('compression')
+      
 
-var config       = require('./config');
-
-mongoose.connect(config.mongoUrl);
+mongoose.connect(process.env.MONGO_URL);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open',  () =>{
@@ -47,13 +47,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static( path.join(__dirname, '/bower_components')) );
 app.use('/node_modules',  express.static( path.join(__dirname, '/node_modules')) );
 
-app.use('/', require('./routes/index'));
-app.use('/users', require('./routes/users'));
-app.use('/checkout', require('./routes/checkout'));
-app.use('/market', require('./routes/items'));
-app.use('/blog', require('./routes/blog'));
-app.use('/phrases', require('./routes/phrase'));
-app.use('/quizes', require('./routes/quizes'));
+app.use('/', require('./app/routes/index'));
+app.use('/users', require('./app/routes/users'));
+app.use('/checkout', require('./app/routes/checkout'));
+app.use('/market', require('./app/routes/items'));
+app.use('/blog', require('./app/routes/blog'));
+app.use('/phrases', require('./app/routes/phrase'));
+// app.use('/quizes', require('./routes/quizes'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) =>{

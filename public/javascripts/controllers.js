@@ -1,11 +1,12 @@
 angular.module('meanApp')
 
 .controller('HomeController', ['$scope', function($scope) {
-        $scope.links = [
-            { src: './images/pr1.jpg', alt: 'kekeke', caption: 'Арт-терапія, яка безболісно допомагає в складних ситуаціях', description: 'Арттерапія Бла-ла-ла' },
-            { src: './images/rp2.jpg', alt: '', caption: 'Допоможемо зберігти душевну рівновагу', description: 'Допомога кваліфікованного психолога' },
-            { src: './images/pr3.jpg', alt: '', caption: 'Не дамо зруйнувати себе з середини', description: 'блалаллааа' },
-        ];
+        // Some kind of image slider for now unused
+        // $scope.links = [
+        //     { src: './images/pr1.jpg', alt: 'kekeke', caption: 'Арт-терапія, яка безболісно допомагає в складних ситуаціях', description: 'Арттерапія Бла-ла-ла' },
+        //     { src: './images/rp2.jpg', alt: '', caption: 'Допоможемо зберігти душевну рівновагу', description: 'Допомога кваліфікованного психолога' },
+        //     { src: './images/pr3.jpg', alt: '', caption: 'Не дамо зруйнувати себе з середини', description: 'блалаллааа' },
+        // ];
 
     }])
     .controller('MarketController', ['$scope', '$stateParams', '$mdDialog', '$mdToast', 'AuthFactory', 'MarketFactory', '$state', 'ngDialog', function($scope, $stateParams, $mdDialog, $mdToast, AuthFactory, MarketFactory, $state, ngDialog) {
@@ -189,19 +190,19 @@ angular.module('meanApp')
             )
     }])
     .controller('BlogController', ['$scope', 'BlogFactory', '$state', '$mdDialog', 'PostFactory', 'AuthFactory', '$mdToast', '$stateParams', function($scope, BlogFactory, $state, $mdDialog, PostFactory, AuthFactory, $mdToast, $stateParams) {
+        $scope.message = "Загрузка ...";
 
         $scope.isAdmin = AuthFactory.isAdmin();
         $scope.auth = AuthFactory.isAuthenticated();
 
 
-        var posts = BlogFactory.query(
+        BlogFactory.query(
             function(response) {
                 $scope.posts = response;
-
-
+                $scope.showBlog = true;
             },
             function(response) {
-                $scope.message = 'Error: ' + response.status + ' ' + response.statusText;
+                $scope.message = 'Извините, сервер временно недоступен';
             }
         );
 
@@ -251,7 +252,7 @@ angular.module('meanApp')
         $scope.incrementUpvotes = function(post) {
 
             PostFactory.upvote(post).then(function() {
-                
+
                 $state.go($state.current, { reload: true });
 
             })
@@ -260,7 +261,7 @@ angular.module('meanApp')
         $scope.decrementUpvotes = function(post) {
 
             PostFactory.downvote(post).then(function(post) {
-                
+
                 $state.go($state.current, { reload: true });
 
             })
@@ -276,21 +277,21 @@ angular.module('meanApp')
         };
     }])
     .controller('PostController', ['$scope', '$state', 'commentFactory', 'BlogFactory', 'PostFactory', 'AuthFactory', '$stateParams', 'ngDialog', function($scope, $state, commentFactory, BlogFactory, PostFactory, AuthFactory, $stateParams, ngDialog) {
+        $scope.message = "Загрузка ...";
+
         $scope.post = {};
         $scope.post = BlogFactory.get({
                 id: $stateParams.id
-            })
-            .$promise.then(function(response) {
-                    $scope.post = response;
-
-
-
-
-                },
-                function(response) {
-                    $scope.message = 'Error: ' + response.status + ' ' + response.statusText;
-                }
-            );
+            },
+            function(response) {
+                $scope.post = response;
+                $scope.showPost = true;
+                console.log($scope.post);
+            },
+            function(response) {
+                $scope.message = 'Error: ' + response.status + ' ' + response.statusText;
+            }
+        );
 
 
         $scope.user = AuthFactory.getUsername();
@@ -307,7 +308,7 @@ angular.module('meanApp')
             };
             commentFactory.save({ id: $stateParams.id }, $scope.mycomment).$promise.then(function() {
                 $state.go($state.current, {}, { reload: true });
-                $scope.commentForm.$setPristine();
+                
                 $scope.mycomment = {
                     comment: ''
                 }
@@ -316,16 +317,19 @@ angular.module('meanApp')
 
 
         };
-        // $scope.incrementUpvotes = function(post, comment) {
+       
+        $scope.incrementUpvotes = function(post, comment) {
 
-        //     PostFactory.upvoteComment(post, comment);
-        //     $state.go($state.current, {}, { reload: true });
-        // };
+            PostFactory.upvoteComment(post, comment);
+            // $state.go($state.current, {}, { reload: true });
+        };
 
-        // $scope.decrementUpvotes = function(post, comment) {
-        //     PostFactory.downvoteComment(post, comment);
-        //     $state.go($state.current, {}, { reload: true });
-        // };
+        $scope.decrementUpvotes = function(post, comment) {
+            PostFactory.downvoteComment(post, comment).then(function(post,comment) {
+                $state.go($state.current, {reload:true})
+            })
+            // $state.go($state.current, {}, { reload: true });
+        };
         $scope.openLogin = function() {
             ngDialog.open({ template: 'views/login.html', scope: $scope, className: 'ngdialog-theme-default', controller: "LoginController" });
         };
@@ -348,8 +352,10 @@ angular.module('meanApp')
             var items = ngCart.getItems();
             $scope.totalCost = ngCart.totalCost();
 
-            $scope.sendOrder = function() {
 
+
+            $scope.sendOrder = function() {
+                console.log($scope.order);
                 orderFactory.save([items, $scope.totalCost, $scope.order]);
                 showToast('Заказ сделан! C Вами свяжутся ближайшее время!')
                 $scope.order = {
@@ -369,14 +375,16 @@ angular.module('meanApp')
                     $mdToast.simple()
                     .content(message)
                     .position('top, right')
-                    .hideDelay(3000)
+                    .hideDelay(5000)
                 )
             };
 
         }
     ])
-    .controller('HeaderController', ['$scope', '$state', '$rootScope', 'ngDialog', 'AuthFactory', 'headerFactory', '$mdSidenav', '$timeout',
-        function($scope, $state, $rootScope, ngDialog, AuthFactory, headerFactory, $mdSidenav, $timeout) {
+    .controller('HeaderController', ['$scope', '$state', '$rootScope', 'ngDialog', 'AuthFactory', 'headerFactory', '$mdSidenav', '$timeout', 'ngCart',
+        function($scope, $state, $rootScope, ngDialog, AuthFactory, headerFactory, $mdSidenav, $timeout, ngCart) {
+
+            $scope.items = ngCart.getTotalItems()
             $scope.isAuthenticated = AuthFactory.isAuthenticated();
             var logout = AuthFactory.logout;
 

@@ -5,28 +5,32 @@
     <table md-table>
         <thead md-head>
             <tr md-row>
-                <th md-column></md-column>
-                <th md-column></md-column>
-                <th md-column>Количество</md-column>
-                <th md-column>Цена за единицу/Всего</md-column>
+                <th md-column>Удалить</th>
+                <th md-column>Найменование товара</th>
+                <th md-column>Количество</th>
+                <th md-column><pre>Цена за единицу
+                /
+                 Всего</pre></th>
             </tr>
         </thead>
         <tbody md-body>
             <tr md-row ng-repeat="item in ngCart.getCart().items track by $index">
-                <td md-cell><span ng-click="ngCart.removeItemById(item.getId());" class="glyphicon glyphicon-remove"></span></td>
+                <td md-cell><span ng-click="ngCart.removeItemById(item.getId());" class="fa fa-remove"></span></td>
                 <td md-cell>{{ item.getName() }}</td>
                 <td md-cell><span class="glyphicon glyphicon-minus" ng-class="{'disabled':item.getQuantity()==1}" ng-click="item.setQuantity(-1, true)"></span>&nbsp;&nbsp; {{ item.getQuantity() | number }}&nbsp;&nbsp;
                     <span class="glyphicon glyphicon-plus" ng-click="item.setQuantity(1, true)"></span></td>
-                <td md-cell>{{ item.getPrice() | currency :"₴"}} грн./{{ item.getTotal() | currency :"₴"}} грн.</td>
+                <td md-cell><pre>{{ item.getPrice() | currency :"₴"}} грн.
+            /
+             {{ item.getTotal() | currency :"₴"}} грн.</pre></td>
             </tr>
-        </tbody>
-        <tfoot md-row>
-            <tr>
+            <tr md-row>
                 <td md-cell></td>
                 <td md-cell></td>
                 <td md-cell>Всего:</td>
                 <td md-cell>{{ ngCart.totalCost() | currency :"₴"}} грн.</td>
             </tr>
-        </tfoot>
+        
+        </tbody>
+        
     </table>
 </md-table-container>

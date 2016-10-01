@@ -9,7 +9,7 @@ angular.module('meanApp', ['ui.router',
     'ngMaterial',
     'md.data.table',
     'ngCart', 'ngRoute',
-    'google.places', 'ngDialog','ngMdIcons'
+    'ngDialog','ngMdIcons'
 ]).config(function($mdThemingProvider, $stateProvider, $urlRouterProvider) {
 
     $mdThemingProvider.theme('default')

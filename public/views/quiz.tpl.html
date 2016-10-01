@@ -15,8 +15,9 @@
 		    </div>
 		    <div ng-show="quizOver">
 		        <h2>Ваш резутьтат</h2>
+	    		<div ng-show="showResult===true">{{message}}</div>
 		        <div id="score">
-		            Ваш результат: {{result}}
+		            {{result}}
 		        </div>
 		        <md-button class="md-primary" ng-click="reset()">Пройти снова</md-button>
 		    </div>

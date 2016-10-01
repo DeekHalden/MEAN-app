@@ -1,6 +1,6 @@
 var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
-    
+    htmlmin = require('gulp-html-minifier'),
     uglify = require('gulp-uglify'),
     usemin = require('gulp-usemin'),
     imagemin = require('gulp-imagemin'),
@@ -18,7 +18,7 @@ var gulp = require('gulp'),
 
 
 // create a default task and just log a message
-gulp.task('default',['pre-img','pre-js', 'pre-css'], ()=> {
+gulp.task('default',['pre-img','pre-css'], ()=> {
    gutil.log('Gulp is running!')
 });
 
@@ -27,6 +27,14 @@ gulp.task('default',['pre-img','pre-js', 'pre-css'], ()=> {
 //   // copy any html files in source/ to public/
 //   gulp.src('public/*.html').pipe(gulp.dest('dist'));
 // });
+
+// gulp.task('pre-html',()=>{
+// 	gulp.src('public/**/*.html')
+// 		.pipe(htmlmin({collapseWhitespace:true,caseSensitive:false}))
+// 		.pipe('public_pre');
+// })
+
+
 
 gulp.task('pre-img', ()=> {
   // copy any html files in source/ to public/
@@ -45,12 +53,12 @@ gulp.task('pre-img', ()=> {
 
 
 
-gulp.task('pre-js',()=> {
-	gulp.src('public/javascripts/**/*.js')
-		// .pipe(concat('bundle.min.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest('public_pre/javascripts'));
-})
+// gulp.task('pre-js',()=> {
+// 	gulp.src('public/javascripts/**/*.js')
+// 		// .pipe(concat('bundle.min.js'))
+// 		.pipe(uglify())
+// 		.pipe(gulp.dest('public_pre/javascripts'));
+// })
 
 gulp.task('pre-css',()=>{
 	gulp.src('public/stylesheets/*.css')
@@ -59,11 +67,3 @@ gulp.task('pre-css',()=>{
 
 })
 
-// gulp.task('usemin', ()=> {
-//   gulp.src('public/**/*.{css,js}*')
-//       .pipe(usemin({
-//         css:[minifycss(),rev()],
-//         js: [ngannotate(),uglify(),rev()]
-//       }))
-//       .pipe(gulp.dest('public_pre/'));
-// });
