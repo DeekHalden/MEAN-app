@@ -93,7 +93,7 @@ Post = require('../models/posts'),
                 req.body.postedBy = req.decoded._id;
                 req.body.username = req.decoded.username;
                 post.comments.push(req.body);
-                post.save(function(err, post) {
+                post.save((err, post) =>{
                     if (err) return next(err);
                     res.json(post);
                 });
