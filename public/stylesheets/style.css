@@ -4,8 +4,8 @@
 }
 
 body {
-    font-family:myFirstFont;
-    font: 14px 'myFirstFont' , Helvetica, Arial, sans-serif;
+    
+    font: 14px 'Georgia' , Helvetica, Arial, sans-serif;
     overflow-x: hidden;
     z-index: 0;
     letter-spacing:3
@@ -55,6 +55,10 @@ div.post-grid .item:hover {
 div.post-grid .item a {
     color: #000;
     text-decoration: none
+}
+p {
+    line-height:2;
+    letter-spacing:2;
 }
 
 .post_paragraph {
@@ -386,7 +390,8 @@ md-content .ext-content {
 }
 
 .footer {
-    background-color: #888;
+    border-top: 2px solid #55992C;
+    
     margin-top: 3em;
     min-height: 150px;
     width: 100%
@@ -398,9 +403,7 @@ md-content .ext-content {
 
 .footer .md-button {
     text-align: left;
-    transform: scale(.9);
-    padding: 0;
-    margin: 0;
+    
 }
 
 .md-dialog-is-showing {
