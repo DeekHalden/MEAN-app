@@ -1,15 +1,16 @@
 require('dotenv').config();
-const express      = require('express'),
-      path         = require('path'),
-      favicon      = require('serve-favicon'),
-      logger       = require('morgan'),
-      cookieParser = require('cookie-parser'),
-      bodyParser   = require('body-parser'),
-      mongoose     = require('mongoose'),
-      passport     = require('passport'),
-      authenticate = require('./app/authenticate'),
-      compression  = require('compression')
-      
+var express      = require('express');
+var path         = require('path');
+var favicon      = require('serve-favicon');
+var logger       = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser   = require('body-parser');
+var mongoose     = require('mongoose');
+var passport     = require('passport');
+var authenticate = require('./app/authenticate');
+var compression  = require('compression')
+
+
 
 mongoose.connect(process.env.MONGO_URL);
 var db = mongoose.connection;

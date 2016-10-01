@@ -1,20 +1,20 @@
-require('dotenv').config();
-const passport = require('passport'),
- LocalStrategy = require('passport-local').Strategy,
- User = require('./models/user'),
- FacebookStrategy = require('passport-facebook').Strategy
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var User = require('./models/user');
+var config = require('./config');
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 exports.local = passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 exports.facebook = passport.use(new FacebookStrategy({
-  clientID: process.env.FACEBOOK_clientID,
-  clientSecret: process.env.FACEBOOK_clientSecret,
-  callbackURL: process.env.FACEBOOK_callbackURL
+  clientID: config.facebook.clientID,
+  clientSecret: config.facebook.clientSecret,
+  callbackURL: config.facebook.callbackURL
   },
-  (accessToken, refreshToken, profile, done) =>{
-    User.findOne({ OauthId: profile.id }, (err, user) =>{
+  function(accessToken, refreshToken, profile, done) {
+    User.findOne({ OauthId: profile.id }, function(err, user) {
       if(err) {
         console.log(err); // handle errors!
       }
@@ -26,7 +26,7 @@ exports.facebook = passport.use(new FacebookStrategy({
         });
         user.OauthId = profile.id;
         user.OauthToken = accessToken;
-        user.save((err) =>{
+        user.save(function(err) {
           if(err) {
             console.log(err); // handle errors!
           } else {

@@ -4,11 +4,11 @@
  * Description
  */
 angular.module('meanApp', ['ui.router',
-    'ngAnimate',
+    
     'ngResource',
     'ngMaterial',
     'md.data.table',
-    'ngCart', 'ngRoute',
+    'ngCart', 
     'ngDialog','ngMdIcons'
 ]).config(function($mdThemingProvider, $stateProvider, $urlRouterProvider) {
 
