@@ -240,29 +240,23 @@ angular.module('meanApp')
         };
 
 
-        $scope.sizeOf = function(obj) {
-            if (Object.keys(obj || {}).length === 1) {
-                return Object.keys(obj || {}).length;
-            } else if (Object.keys(obj || {}).length >= 5 || (Object.keys(obj || {}).length) === 0) {
-                return Object.keys(obj || {}).length;
-            } else if (2 <= (Object.keys(obj || {}).length) <= 4) {
-                return Object.keys(obj || {}).length;
-            }
-        };
         $scope.incrementUpvotes = function(post) {
 
-            PostFactory.upvote(post).then(function() {
+            PostFactory.upvote(post).then(function(data) {
 
-                $state.go($state.current, { reload: true });
+                post.vote.positive.length = data.data;
+                post.vote.negative.length = post.vote.negative.length - 1;
+
 
             })
         };
 
         $scope.decrementUpvotes = function(post) {
 
-            PostFactory.downvote(post).then(function(post) {
+            PostFactory.downvote(post).then(function(data) {
+                post.vote.negative.length = data.data;
+                post.vote.positive.length = post.vote.positive.length - 1;
 
-                $state.go($state.current, { reload: true });
 
             })
         };
@@ -308,7 +302,7 @@ angular.module('meanApp')
             };
             commentFactory.save({ id: $stateParams.id }, $scope.mycomment).$promise.then(function() {
                 $state.go($state.current, {}, { reload: true });
-                
+
                 $scope.mycomment = {
                     comment: ''
                 }
@@ -317,7 +311,7 @@ angular.module('meanApp')
 
 
         };
-       
+
         $scope.incrementUpvotes = function(post, comment) {
 
             PostFactory.upvoteComment(post, comment);
@@ -325,10 +319,10 @@ angular.module('meanApp')
         };
 
         $scope.decrementUpvotes = function(post, comment) {
-            PostFactory.downvoteComment(post, comment).then(function(post,comment) {
-                $state.go($state.current, {reload:true})
-            })
-            // $state.go($state.current, {}, { reload: true });
+            PostFactory.downvoteComment(post, comment).then(function(post, comment) {
+                    $state.go($state.current, { reload: true })
+                })
+                // $state.go($state.current, {}, { reload: true });
         };
         $scope.openLogin = function() {
             ngDialog.open({ template: 'views/login.html', scope: $scope, className: 'ngdialog-theme-default', controller: "LoginController" });
@@ -336,6 +330,39 @@ angular.module('meanApp')
     }])
     .controller('CheckoutController', ['$scope', '$state', 'ngCart', 'orderFactory', '$mdToast',
         function($scope, $state, ngCart, orderFactory, $mdToast) {
+            
+            $scope.showDelete = function(item) {
+                var toast =  $mdToast.simple()
+                        
+                        .position('bottom')
+                        .action('Да')
+                        .content('Удалить?');   
+                
+                $mdToast.show(toast).then(function(response) {
+                    if(response === 'ok')
+                    ngCart.removeItemById(item.getId());
+                });
+                
+            };
+
+            $scope.closeToast = function() {
+                if (isDlgOpen) return;
+
+                $mdToast
+                    .hide()
+                    .then(function() {
+                        isDlgOpen = false;
+                    });
+            };
+
+            $scope.accept = function(e) {
+                    
+                
+                    ngCart.removeItemById(item.getId());    
+            }
+                
+                
+            
 
             $scope.order = {
 
@@ -346,7 +373,7 @@ angular.module('meanApp')
                 telephone: '',
                 delivery: ''
 
-            }
+            };
 
             $scope.errors = '';
             var items = ngCart.getItems();
@@ -374,7 +401,7 @@ angular.module('meanApp')
                 $mdToast.show(
                     $mdToast.simple()
                     .content(message)
-                    .position('top, right')
+                    .position('top, left')
                     .hideDelay(5000)
                 )
             };
@@ -384,15 +411,14 @@ angular.module('meanApp')
     .controller('HeaderController', ['$scope', '$state', '$rootScope', 'ngDialog', 'AuthFactory', 'headerFactory', '$mdSidenav', '$timeout', 'ngCart',
         function($scope, $state, $rootScope, ngDialog, AuthFactory, headerFactory, $mdSidenav, $timeout, ngCart) {
 
+
             $scope.items = ngCart.getTotalItems()
             $scope.isAuthenticated = AuthFactory.isAuthenticated();
             var logout = AuthFactory.logout;
 
 
             if ($scope.isAuthenticated === true) {
-                // one hour timeout for logout function
-                // $timeout(logout, 1000*600).then(function() { 
-                // test timeout 10 hours
+                
                 $timeout(logout, 1000 * 6000).then(function() {
                     $state.go($state.current, {}, { reload: true })
                 })
@@ -488,7 +514,6 @@ angular.module('meanApp')
 
         };
     }])
-
 
 
 ;

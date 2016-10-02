@@ -17,9 +17,13 @@
 </div>
 <md-content class="md-padding" layout="row" layout-xs="column" layout-align="space-around" layout-wrap>
     <md-card ng-repeat="item in items" flex="100" flex-gt-sm="45" class="market_item">
-        <md-button-group>
-            <md-button class="md-primary" ng-if="isAdmin===true" ng-click="editItem(item)">Редактировать</md-button>
-            <md-button class="md-warn" ng-if="isAdmin===true" ng-click="delete(event,item)">Удалить</md-button>
+        <md-button-group layout="row">
+            <md-button class="md-icon-button fa fa-bars" ng-show="isAdmin===true" ng-click="showMore=!showMore" aria-label="Admin Panel">
+            </md-button>
+            <md-button-group ng-show="showMore===true">
+                <md-button class="md-primary" ng-click="editItem(item)">Редактировать</md-button>
+                <md-button class="md-warn" ng-click="delete(event,item)">Удалить</md-button>
+            </md-button-group>
         </md-button-group>
         <md-card-title>
             <md-card-title-text>

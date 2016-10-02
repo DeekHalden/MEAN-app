@@ -32,13 +32,16 @@
         <div ng-hide="auth">
             <h3><a  ng-click="openLogin()">Войдите в систему</a> для того чтобы добавить новый комментарий.</h3>
         </div>
-        <form class="md-padding filters" ng-submit="addComment()" name="commentForm" ng-show="auth" ng-model="commentForm" style="margin-top:30px;">
-            <h3>Добавить новый коментарий</h3>
-            <md-input-container  ng-class="{ 'has-error' : commentForm.body.$error.required && !commentForm.body.$pristine }" layout="row">
-                <textarea  name="body"  type="text" placeholder="Ваш комментарий" ng-model="mycomment.comment" required></textarea>
+        <form class="md-padding filters" layout="row"  layout-align="start end" ng-submit="addComment()" name="commentForm" ng-show="auth" ng-model="commentForm" style="margin-top:30px;">
+            <md-content layout="column" class="comment_form">
+                <h3>Добавить коментарий</h3>
+                <md-input-container class="margined_input" ng-class="{ 'has-error' : commentForm.body.$error.required && !commentForm.body.$pristine }" >
+                    <textarea  name="body"  type="text" placeholder="Ваш комментарий" ng-model="mycomment.comment" required></textarea>
+                </md-input-container>
+            </md-content>
+            <md-input-container>
                 <md-button type="submit" class="md-primary">Добавить</md-primary>
             </md-input-container>
-            
         </form>
     </md-card>
 </md-content>

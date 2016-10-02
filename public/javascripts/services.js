@@ -46,6 +46,7 @@ angular.module('meanApp')
             return $http.put('/blog/' + post._id + '/upvote', { id: '@_id' }, {
 
             }).success(function(data) {
+                // console.log(data);
                 return data;
             });
         };
@@ -55,7 +56,8 @@ angular.module('meanApp')
             return $http.put('/blog/' + post._id + '/downvote', { id: '@_id' }, {
 
             }).success(function(data) {
-                
+
+                return data;
             });
         };
         // also unused methods

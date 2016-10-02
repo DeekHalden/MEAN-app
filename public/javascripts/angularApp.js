@@ -107,5 +107,5 @@ angular.module('meanApp', ['ui.router',
             }
         })
     $urlRouterProvider.otherwise('/');
-
+    
 })

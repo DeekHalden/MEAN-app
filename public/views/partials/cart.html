@@ -1,36 +1,62 @@
-<div class="md-warn" role="alert" ng-show="ngCart.getTotalItems() === 0">
-    Ваша карта заказа пуста
-</div>
-<md-table-container ng-show="ngCart.getTotalItems() > 0">
-    <table md-table>
-        <thead md-head>
-            <tr md-row>
-                <th md-column>Удалить</th>
-                <th md-column>Найменование товара</th>
-                <th md-column>Количество</th>
-                <th md-column><pre>Цена за единицу
+<div ng-controller="CheckoutController">
+    <div class="md-warn " role="alert" ng-show="ngCart.getTotalItems() === 0">
+        Ваша карта заказа пуста
+    </div>
+    <md-table-container ng-show="ngCart.getTotalItems() > 0">
+       <!--  <table md-table>
+            <thead md-head>
+                <tr md-row>
+                    <th md-column>Удалить</th>
+                    <th md-column>Найменование товара</th>
+                    <th md-column>Количество</th>
+                    <th md-column><pre>Цена за единицу
                 /
                  Всего</pre></th>
-            </tr>
-        </thead>
-        <tbody md-body>
-            <tr md-row ng-repeat="item in ngCart.getCart().items track by $index">
-                <td md-cell><span ng-click="ngCart.removeItemById(item.getId());" class="fa fa-remove"></span></td>
-                <td md-cell>{{ item.getName() }}</td>
-                <td md-cell><span class="glyphicon glyphicon-minus" ng-class="{'disabled':item.getQuantity()==1}" ng-click="item.setQuantity(-1, true)"></span>&nbsp;&nbsp; {{ item.getQuantity() | number }}&nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-plus" ng-click="item.setQuantity(1, true)"></span></td>
-                <td md-cell><pre>{{ item.getPrice() | currency :"₴"}} грн.
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row ng-repeat="item in ngCart.getCart().items track by $index">
+                    <td md-cell><span ng-click="ngCart.removeItemById(item.getId());" class="fa fa-remove"></span></td>
+                    <td md-cell>{{ item.getName() }}</td>
+                    <td md-cell><span class="glyphicon glyphicon-minus" ng-class="{'disabled':item.getQuantity()==1}" ng-click="item.setQuantity(-1, true)"></span>&nbsp;&nbsp; {{ item.getQuantity() | number }}&nbsp;&nbsp;
+                        <span class="glyphicon glyphicon-plus" ng-click="item.setQuantity(1, true)"></span></td>
+                    <td md-cell><pre>{{ item.getPrice() | currency :"₴"}} грн.
             /
              {{ item.getTotal() | currency :"₴"}} грн.</pre></td>
-            </tr>
-            <tr md-row>
-                <td md-cell></td>
-                <td md-cell></td>
-                <td md-cell>Всего:</td>
-                <td md-cell>{{ ngCart.totalCost() | currency :"₴"}} грн.</td>
-            </tr>
-        
-        </tbody>
-        
-    </table>
-</md-table-container>
+                </tr>
+                <tr md-row>
+                    <td md-cell></td>
+                    <td md-cell></td>
+                    <td md-cell>Всего:</td>
+                    <td md-cell>{{ ngCart.totalCost() | currency :"₴"}} грн.</td>
+                </tr>
+            </tbody>
+        </table> -->
+        <table md-table>
+            <thead md-head>
+                <tr md-row>
+                    <th md-column>Найменование товара| шт.</th>
+                    <th md-column>Цена| Всего</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+
+                <tr md-row ng-repeat="item in ngCart.getCart().items track by $index">
+                    
+                    <td md-cell md-swipe-left="showDelete(item)">
+                        <md-icon class="fa fa-remove" ng-click="ngCart.removeItemById(item.getId());">
+                            <md-tooltip>Удалить</md-tooltip>    
+                        </md-icon> 
+                        {{ item.getName() }} | <span class="fa fa-minus" ng-class="{'disabled':item.getQuantity()==1}" ng-click="item.setQuantity(-1, true)"></span>{{ item.getQuantity() | number }} шт.<span class="fa fa-plus" ng-click="item.setQuantity(1, true)"></span>
+                        <md-tooltip>в Вашем заказе {{ item.getQuantity() | number }} шт.</md-tooltip>
+                    </td>
+                    <td md-cell>{{ item.getPrice() | currency :"₴"}} грн.|{{ item.getTotal() | currency :"₴"}} грн.</td>
+                </tr>
+                <tr md-row>
+                    <td md-cell>Всего:</td>
+                    <td md-cell> {{ ngCart.totalCost() | currency :"₴"}} грн.</td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+</div>
